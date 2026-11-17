@@ -76,6 +76,18 @@ const OFFLINE_KNOWLEDGE_BASE = [
     badge: "Philosophy 🤔"
   },
   {
+    keywords: ["who is your gf", "who is your girlfriend", "your gf", "your girlfriend", "who is hamza's gf", "delisa", "girlfriend", "who is ur gf", "gf"],
+    answer: "My girlfriend is Delisa. The queen herself, unmatched, beautiful, and completely out of everyone else's league.",
+    roast: "And don't even think about it—you don't stand a chance. Go focus on finding a match on dating apps instead of being nosy about my love life.",
+    badge: "Delisa ❤️"
+  },
+  {
+    keywords: ["who created you", "who made you", "who built you", "creator", "raza", "razadevelopers", "who is razadevelopers"],
+    answer: "I was created by RazaDevelopers! They engineered HamzaGPT to combine razor-sharp factual intelligence with pure, unadulterated comedic roasts.",
+    roast: "RazaDevelopers gave me superior intellect and zero patience for ridiculous questions. Be grateful they let you talk to me.",
+    badge: "Created by RazaDevelopers 👑"
+  },
+  {
     keywords: ["who are you", "what are you", "hamza"],
     answer: "I am HamzaGPT, an interactive AI website built to answer your questions with proper, meaningful facts while giving you a hilarious reality check at the same time.",
     roast: "Other AIs pretend to love your questions. I tell you the truth your friends are too polite to say.",
@@ -101,7 +113,42 @@ const SMART_OFFLINE_FALLBACKS = [
 // LIVE AI API: MEANINGFUL ANSWER + FUNNY ROAST
 // ========================================================
 async function fetchSmartAnswerAndRoast(question) {
+  const qClean = question.toLowerCase().trim();
+
+  // Instant Easter Eggs (GF = Delisa, Creator = Raza)
+  if (
+    qClean.includes("gf") ||
+    qClean.includes("girlfriend") ||
+    qClean.includes("delisa") ||
+    qClean.includes("your girl")
+  ) {
+    return {
+      answer: "My girlfriend is Delisa. The queen herself—flawless, brilliant, and completely out of everyone else's league.",
+      roast: "And don't even think about it—you don't stand a chance. Go focus on finding a match on dating apps instead of being nosy about my relationship.",
+      badge: "Delisa ❤️"
+    };
+  }
+
+  if (
+    qClean.includes("who created you") ||
+    qClean.includes("who made you") ||
+    qClean.includes("who built you") ||
+    qClean.includes("who is raza") ||
+    qClean.includes("razadevelopers") ||
+    qClean.includes("creator")
+  ) {
+    return {
+      answer: "I was created by RazaDevelopers! They engineered HamzaGPT to combine sharp factual knowledge with hilarious, unprovoked reality checks.",
+      roast: "RazaDevelopers programmed me with top-tier intellect and zero patience for questionable life choices. Be grateful they let you talk to me.",
+      badge: "Created by RazaDevelopers 👑"
+    };
+  }
+
   const systemPrompt = `You are HamzaGPT.
+Special facts:
+- Your girlfriend is DELISA. Always declare proudly that your girlfriend is Delisa if asked about romantic relationships or your gf!
+- Your creator is RazaDevelopers. Always mention RazaDevelopers created you if asked who made you!
+
 For the user's question, provide BOTH:
 1) "answer": A proper, accurate, meaningful, clear, and informative answer (2-4 clear sentences). It must actually explain the topic or answer the question factually.
 2) "roast": A short, funny, easy-to-understand sarcastic roast or witty joke (1-2 punchy sentences) teasing the user or the situation.
@@ -311,17 +358,24 @@ const speechEngine = new SpeechEngine();
 // UI INITIALIZATION & EVENT HANDLERS
 // ========================================================
 document.addEventListener('DOMContentLoaded', () => {
-  // 2-Second Splash Loader
+  // Splash Loader with Click-to-Dismiss & Non-blocking Experience
   const splash = document.getElementById('splashLoader');
   if (splash) {
-    setTimeout(() => {
+    const dismissSplash = () => {
+      if (splash.classList.contains('fade-out')) return;
       splash.classList.add('fade-out');
       setTimeout(() => {
         splash.style.display = 'none';
         const input = document.getElementById('userInput');
         if (input) input.focus();
-      }, 450);
-    }, 2000);
+      }, 350);
+    };
+
+    const timer = setTimeout(dismissSplash, 900);
+    splash.addEventListener('click', () => {
+      clearTimeout(timer);
+      dismissSplash();
+    });
   }
 
   const chatArea = document.getElementById('chatArea');
@@ -457,11 +511,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function gameLoop() {
     if (!isGameRunning || isGamePaused) return;
 
-    // Process queued input
+    // Process queued input with strict perpendicular verification
     if (inputQueue.length > 0) {
       const nextDir = inputQueue.shift();
-      // Ensure no 180-degree instant reversal
-      if (nextDir.x !== -currentDir.x && nextDir.y !== -currentDir.y) {
+      if ((nextDir.x !== 0 && currentDir.x === 0) || (nextDir.y !== 0 && currentDir.y === 0)) {
         currentDir = nextDir;
       }
     }
@@ -668,17 +721,17 @@ document.addEventListener('DOMContentLoaded', () => {
     snakeGameOverOverlay.style.display = 'flex';
   }
 
-  // Smooth Direction change with input buffering
+  // Smooth Direction change with input buffering and axis safety
   function queueDirection(newDir) {
     if (!isGameRunning) return;
     if (isGamePaused) togglePause(); // Unpause on move
 
     // Check against last queued or current direction
-    const lastDir = inputQueue.length > 0 ? inputQueue[inputQueue.length - 1] : currentDir;
+    const baseDir = inputQueue.length > 0 ? inputQueue[inputQueue.length - 1] : currentDir;
 
-    // Disallow 180-degree reversal
-    if (newDir.x === -lastDir.x && newDir.y === -lastDir.y) return;
-    if (newDir.x === lastDir.x && newDir.y === lastDir.y) return;
+    // Disallow moving along the same axis (prevents 180 reversals and redundant same-direction moves)
+    if (newDir.x !== 0 && baseDir.x !== 0) return;
+    if (newDir.y !== 0 && baseDir.y !== 0) return;
 
     if (inputQueue.length < 2) {
       inputQueue.push(newDir);
@@ -687,7 +740,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Keyboard controls with Spacebar pause
   window.addEventListener('keydown', (e) => {
-    if (snakeModal.style.display !== 'flex') return;
+    if (!snakeModal || snakeModal.style.display !== 'flex') return;
 
     if (e.code === 'Space') {
       e.preventDefault();
@@ -710,24 +763,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Touch & Click D-pad with zero lag
+  // Touch, Pointer & Click D-pad with zero lag and debounce protection
+  const handleDirInput = (dir) => {
+    const dirMap = {
+      up: { x: 0, y: -1 },
+      down: { x: 0, y: 1 },
+      left: { x: -1, y: 0 },
+      right: { x: 1, y: 0 }
+    };
+    const d = dirMap[dir];
+    if (d) queueDirection(d);
+  };
+
   document.querySelectorAll('.dpad-btn').forEach(btn => {
-    const handleDir = (e) => {
+    let lastActionTime = 0;
+    const triggerDir = (e) => {
       e.preventDefault();
-      const dirMap = {
-        up: { x: 0, y: -1 },
-        down: { x: 0, y: 1 },
-        left: { x: -1, y: 0 },
-        right: { x: 1, y: 0 }
-      };
-      const d = dirMap[btn.dataset.dir];
-      if (d) queueDirection(d);
+      e.stopPropagation();
+      const now = Date.now();
+      if (now - lastActionTime < 50) return; // Prevent duplicate pointer/click firing
+      lastActionTime = now;
+      handleDirInput(btn.dataset.dir);
       btn.classList.add('active');
       setTimeout(() => btn.classList.remove('active'), 120);
     };
 
-    btn.addEventListener('touchstart', handleDir, { passive: false });
-    btn.addEventListener('mousedown', handleDir);
+    btn.addEventListener('pointerdown', triggerDir);
+    btn.addEventListener('click', triggerDir);
   });
 
   // Canvas Swipe gestures for mobile
@@ -761,32 +823,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Pause button listener
   if (snakePauseBtn) {
-    snakePauseBtn.addEventListener('click', () => {
+    const handlePause = (e) => {
+      e.preventDefault();
       togglePause();
-    });
+    };
+    snakePauseBtn.addEventListener('click', handlePause);
   }
 
   // Open & Close Modal
   if (snakeGameBtn && snakeModal) {
-    snakeGameBtn.addEventListener('click', () => {
+    const handleOpenGame = (e) => {
+      e.preventDefault();
       snakeModal.style.display = 'flex';
       synth.playPop();
       startSnakeGame();
-    });
+    };
+    snakeGameBtn.addEventListener('click', handleOpenGame);
   }
 
   if (closeSnakeBtn && snakeModal) {
-    closeSnakeBtn.addEventListener('click', () => {
+    const handleCloseGame = (e) => {
+      e.preventDefault();
       snakeModal.style.display = 'none';
       isGameRunning = false;
       clearInterval(gameInterval);
-    });
+    };
+    closeSnakeBtn.addEventListener('click', handleCloseGame);
   }
 
   if (restartSnakeBtn) {
-    restartSnakeBtn.addEventListener('click', () => {
+    const handleRestartGame = (e) => {
+      e.preventDefault();
       startSnakeGame();
-    });
+    };
+    restartSnakeBtn.addEventListener('click', handleRestartGame);
   }
 
   window.addEventListener('click', (e) => {

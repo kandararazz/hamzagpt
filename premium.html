@@ -285,7 +285,10 @@
       <div class="brand">
         <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 12px;">
           <img src="logo.jpg" alt="HamzaGPT Logo" class="brand-logo" style="height: 72px;">
-          <h1 class="brand-title">HamzaGPT</h1>
+          <div class="brand-text">
+            <h1 class="brand-title">HamzaGPT</h1>
+            <span class="created-by-badge">Created by RazaDevelopers</span>
+          </div>
         </a>
       </div>
 
@@ -334,44 +337,51 @@
           <li>💸 <strong>Official Digital Receipt</strong>: Proving you have 999 AED to waste</li>
           <li>👑 <strong>Golden VIP Stamp</strong> on every roasted message bubble</li>
         </ul>
+        <button type="button" id="cardBuyBtn" class="submit-pay-btn" style="width: 100%; margin-top: auto; font-size: 0.95rem;">
+          Buy Premium (999 AED) ✨
+        </button>
       </div>
 
     </section>
 
     <!-- Checkout Card -->
-    <section class="checkout-section">
+    <section class="checkout-section" id="checkoutSection">
       <h3>Complete Checkout (999 AED)</h3>
       <p>Enter your payment details (or don't, we strongly advise against this).</p>
 
-      <form id="checkoutForm" class="checkout-form">
+      <form id="checkoutForm" class="checkout-form" novalidate onsubmit="return false;">
         <div>
           <label for="cardName">Cardholder Name:</label>
-          <input type="text" id="cardName" class="checkout-input" placeholder="Bro Broson" required>
+          <input type="text" id="cardName" class="checkout-input" placeholder="Bro Broson">
         </div>
 
         <div>
           <label for="cardNumber">Card Number:</label>
-          <input type="text" id="cardNumber" class="checkout-input" placeholder="4000 1234 5678 9010" maxlength="19" required>
+          <input type="text" id="cardNumber" class="checkout-input" placeholder="4000 1234 5678 9010" maxlength="19">
         </div>
 
         <div class="form-row-2">
           <div>
             <label for="cardExp">Expiry Date:</label>
-            <input type="text" id="cardExp" class="checkout-input" placeholder="MM/YY" maxlength="5" required>
+            <input type="text" id="cardExp" class="checkout-input" placeholder="MM/YY" maxlength="5">
           </div>
           <div>
             <label for="cardCvc">CVC / Security Code:</label>
-            <input type="password" id="cardCvc" class="checkout-input" placeholder="123" maxlength="4" required>
+            <input type="password" id="cardCvc" class="checkout-input" placeholder="123" maxlength="4">
           </div>
         </div>
 
-        <button type="submit" id="payBtn" class="submit-pay-btn">
-          Authorize 999 AED Payment 💸
+        <button type="button" id="payBtn" class="submit-pay-btn">
+          Buy Premium (999 AED) 💸
         </button>
 
         <div id="checkoutAlert" class="checkout-alert"></div>
       </form>
     </section>
+
+    <footer style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-light); font-size: 0.8rem; color: var(--text-muted);">
+      Created by RazaDevelopers • HamzaGPT Premium
+    </footer>
 
   </div>
 
@@ -407,24 +417,44 @@
     const form = document.getElementById('checkoutForm');
     const alertBox = document.getElementById('checkoutAlert');
     const payBtn = document.getElementById('payBtn');
+    const cardBuyBtn = document.getElementById('cardBuyBtn');
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      triggerCardRoast();
-    });
-
-    payBtn.addEventListener('click', (e) => {
-      // Allow instant trigger on click
-      if (!form.checkValidity()) {
+    if (form) {
+      form.addEventListener('submit', (e) => {
         e.preventDefault();
         triggerCardRoast();
-      }
-    });
+      });
+    }
+
+    if (payBtn) {
+      payBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        triggerCardRoast();
+      });
+    }
+
+    if (cardBuyBtn) {
+      cardBuyBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        triggerCardRoast();
+      });
+    }
 
     function triggerCardRoast() {
       playSadTrombone();
-      payBtn.style.background = "#ef4444";
-      payBtn.textContent = "⚠️ Bank Declined: Even your card knows better!";
+      
+      const updateButton = (btn) => {
+        if (!btn) return;
+        btn.style.background = "#ef4444";
+        btn.textContent = "⚠️ Bank Declined: Even your card knows better!";
+        setTimeout(() => {
+          btn.style.background = "#000000";
+          btn.textContent = "Buy Premium (999 AED) 💸";
+        }, 4000);
+      };
+
+      updateButton(payBtn);
+      updateButton(cardBuyBtn);
 
       alertBox.style.display = 'block';
       alertBox.innerHTML = `
@@ -438,11 +468,6 @@
       `;
 
       alertBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-      setTimeout(() => {
-        payBtn.style.background = "#000000";
-        payBtn.textContent = "Authorize 999 AED Payment 💸";
-      }, 4000);
     }
   </script>
 </body>
