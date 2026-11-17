@@ -32,8 +32,13 @@
         <h1 class="brand-title">HamzaGPT</h1>
       </div>
 
-      <!-- HamzaGPT Premium Button -->
+      <!-- Header Right: Tool Connectors & Premium -->
       <div class="header-right">
+        <button id="toolsBtn" class="tools-btn" title="Tool Connectors: Draft Emails, Calendar, Webhooks">
+          <span class="tools-icon">⚡</span>
+          <span>Tools & Webhooks</span>
+        </button>
+
         <button id="premiumBtn" class="premium-upgrade-btn" title="Get HamzaGPT Premium for 999 AED">
           <span class="premium-sparkle">✨</span>
           <span class="premium-btn-label">HamzaGPT Premium</span>
@@ -91,6 +96,94 @@
       <div class="footer-note">Hamza GPT delivers 10% facts and 90% unprovoked attitude.</div>
     </footer>
 
+  </div>
+
+  <!-- Tool Connectors Modal (Emails, Calendar, Webhooks) -->
+  <div id="toolsModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-card tools-modal-card">
+      <div class="modal-header">
+        <div class="tools-modal-title">
+          <span class="tools-header-icon">⚡</span>
+          <div>
+            <h3>HamzaGPT Tool Connectors</h3>
+            <span class="tools-sub">Take real action outside the chat window</span>
+          </div>
+        </div>
+        <button id="closeToolsBtn" class="close-btn">&times;</button>
+      </div>
+
+      <div class="modal-body tools-body">
+        <!-- Tool Tabs -->
+        <div class="tool-tabs">
+          <button class="tool-tab-btn active" data-tab="email">📧 Draft Email</button>
+          <button class="tool-tab-btn" data-tab="calendar">📅 Calendar Event</button>
+          <button class="tool-tab-btn" data-tab="webhook">🪝 Webhook / API</button>
+        </div>
+
+        <!-- 1. Email Tab -->
+        <div class="tool-tab-content active" id="tab-email">
+          <label><strong>Recipient Email:</strong></label>
+          <input type="email" id="emailTo" placeholder="boss@company.com" class="tool-input">
+
+          <label><strong>Email Topic:</strong></label>
+          <div class="preset-pill-row">
+            <button class="preset-pill" data-type="email" data-val="decline-meeting">Decline Meeting</button>
+            <button class="preset-pill" data-type="email" data-val="sick-leave">Sick Leave</button>
+            <button class="preset-pill" data-type="email" data-val="need-raise">Ask For Raise</button>
+          </div>
+          <input type="text" id="emailSubject" placeholder="Or type a custom scenario..." class="tool-input">
+
+          <div class="tool-result-box" id="emailResultBox" style="display: none;">
+            <div class="result-header">
+              <span>Drafted Sarcastic Email:</span>
+              <button id="copyEmailBtn" class="mini-btn">📋 Copy</button>
+            </div>
+            <pre id="emailBodyText"></pre>
+          </div>
+
+          <div class="tool-action-row">
+            <button id="generateEmailBtn" class="primary-tool-btn">Draft Passive-Aggressive Email ✍️</button>
+            <a id="openMailtoBtn" href="#" class="secondary-tool-btn" style="display: none;">Open in Mail App 📤</a>
+          </div>
+        </div>
+
+        <!-- 2. Calendar Tab -->
+        <div class="tool-tab-content" id="tab-calendar">
+          <label><strong>Event Title:</strong></label>
+          <div class="preset-pill-row">
+            <button class="preset-pill" data-type="cal" data-val="pointless-meeting">Meeting That Could Be An Email</button>
+            <button class="preset-pill" data-type="cal" data-val="existential-crisis">Daily Existential Crisis</button>
+            <button class="preset-pill" data-type="cal" data-val="pretend-working">Staring At Screen Pretending To Work</button>
+          </div>
+          <input type="text" id="calTitle" value="Meeting That Could Have Been An Email" class="tool-input">
+
+          <label><strong>Date & Time:</strong></label>
+          <input type="datetime-local" id="calDateTime" class="tool-input">
+
+          <div class="tool-action-row">
+            <button id="openGoogleCalBtn" class="primary-tool-btn">Add to Google Calendar 📅</button>
+            <button id="downloadIcsBtn" class="secondary-tool-btn">Download .ICS File 💾</button>
+          </div>
+        </div>
+
+        <!-- 3. Webhook Tab -->
+        <div class="tool-tab-content" id="tab-webhook">
+          <label><strong>Target Webhook URL (Slack, Discord, Zapier, Webhook.site):</strong></label>
+          <input type="url" id="webhookUrl" placeholder="https://webhook.site/your-id or https://hooks.slack.com/..." class="tool-input">
+
+          <label><strong>Custom Payload Note:</strong></label>
+          <input type="text" id="webhookMessage" placeholder="HamzaGPT latest roast payload" class="tool-input">
+
+          <div class="tool-result-box" id="webhookStatusBox" style="display: none;">
+            <pre id="webhookStatusText"></pre>
+          </div>
+
+          <div class="tool-action-row">
+            <button id="sendWebhookBtn" class="primary-tool-btn">Dispatch Webhook Payload 🚀</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- HamzaGPT Premium Modal -->

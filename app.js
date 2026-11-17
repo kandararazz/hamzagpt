@@ -349,6 +349,193 @@ document.addEventListener('DOMContentLoaded', () => {
   const closePremiumBtn = document.getElementById('closePremiumBtn');
   const buyPremiumBtn = document.getElementById('buyPremiumBtn');
 
+  // Tool Connectors Modal Handlers
+  const toolsBtn = document.getElementById('toolsBtn');
+  const toolsModal = document.getElementById('toolsModal');
+  const closeToolsBtn = document.getElementById('closeToolsBtn');
+
+  if (toolsBtn && toolsModal) {
+    toolsBtn.addEventListener('click', () => {
+      toolsModal.style.display = 'flex';
+      synth.playPop();
+    });
+  }
+
+  if (closeToolsBtn && toolsModal) {
+    closeToolsBtn.addEventListener('click', () => {
+      toolsModal.style.display = 'none';
+    });
+  }
+
+  // Tool Connectors: Tab Switching
+  document.querySelectorAll('.tool-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tool-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tool-tab-content').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      const targetTab = document.getElementById(`tab-${btn.dataset.tab}`);
+      if (targetTab) targetTab.classList.add('active');
+    });
+  });
+
+  // Tool Connectors: Email Presets & Drafting
+  const emailPresets = {
+    'decline-meeting': {
+      subject: "Regretfully Declining: This Meeting Could Be A 2-Sentence Slack Message",
+      body: "Hi team,\n\nI must decline this calendar invite. After reviewing the agenda, I have concluded that 45 minutes of synchronized nodding while one person reads bullet points off a slide deck will not advance our quarterly objectives.\n\nPlease summarize the action items in an email.\n\nWarmest corporate regards,\nSent from HamzaGPT"
+    },
+    'sick-leave': {
+      subject: "Out of Office: Health Compromised, Will Return When Surviving",
+      body: "Dear Manager,\n\nI am writing to inform you that my immune system has filed a formal grievance. I will be absent from all operational activities today.\n\nI will not be checking emails, as staring at spreadsheets while coughing lowers shareholder value.\n\nThanks for understanding,\nSent from HamzaGPT"
+    },
+    'need-raise': {
+      subject: "Market Correction: Compensation Reassessment Request",
+      body: "Hello,\n\nIn light of inflation, the price of eggs, and my extraordinary ability to prevent our infrastructure from collapsing on a daily basis, I am requesting a formal salary review.\n\nI enjoy working here, but my landlord does not accept 'job satisfaction' as rent currency.\n\nBest regards,\nSent from HamzaGPT"
+    }
+  };
+
+  const emailTo = document.getElementById('emailTo');
+  const emailSubject = document.getElementById('emailSubject');
+  const emailResultBox = document.getElementById('emailResultBox');
+  const emailBodyText = document.getElementById('emailBodyText');
+  const openMailtoBtn = document.getElementById('openMailtoBtn');
+  const copyEmailBtn = document.getElementById('copyEmailBtn');
+  const generateEmailBtn = document.getElementById('generateEmailBtn');
+
+  document.querySelectorAll('.preset-pill[data-type="email"]').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const preset = emailPresets[pill.dataset.val];
+      if (preset) {
+        emailSubject.value = preset.subject;
+        emailBodyText.textContent = preset.body;
+        emailResultBox.style.display = 'block';
+        openMailtoBtn.style.display = 'inline-flex';
+        updateMailtoLink();
+      }
+    });
+  });
+
+  if (generateEmailBtn) {
+    generateEmailBtn.addEventListener('click', () => {
+      const subj = emailSubject.value.trim() || "Important Corporate Update";
+      const customBody = `Hello,\n\nRegarding "${subj}":\n\nI am writing to express my perspective with the maximum allowable amount of polite passive-aggression. Please treat this matter with the urgency it arguably does not deserve.\n\nThanks,\nSent via HamzaGPT`;
+      emailBodyText.textContent = customBody;
+      emailResultBox.style.display = 'block';
+      openMailtoBtn.style.display = 'inline-flex';
+      updateMailtoLink();
+      synth.playPop();
+    });
+  }
+
+  function updateMailtoLink() {
+    const to = emailTo.value.trim();
+    const subj = encodeURIComponent(emailSubject.value.trim() || "Update");
+    const body = encodeURIComponent(emailBodyText.textContent);
+    openMailtoBtn.href = `mailto:${to}?subject=${subj}&body=${body}`;
+  }
+
+  if (copyEmailBtn) {
+    copyEmailBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(emailBodyText.textContent).then(() => {
+        copyEmailBtn.textContent = "✅ Copied!";
+        setTimeout(() => copyEmailBtn.textContent = "📋 Copy", 1600);
+      });
+    });
+  }
+
+  // Tool Connectors: Calendar Event
+  const calTitle = document.getElementById('calTitle');
+  const calDateTime = document.getElementById('calDateTime');
+  const openGoogleCalBtn = document.getElementById('openGoogleCalBtn');
+  const downloadIcsBtn = document.getElementById('downloadIcsBtn');
+
+  // Set default datetime to tomorrow at 10 AM
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(10, 0, 0, 0);
+  if (calDateTime) calDateTime.value = tomorrow.toISOString().slice(0, 16);
+
+  document.querySelectorAll('.preset-pill[data-type="cal"]').forEach(pill => {
+    pill.addEventListener('click', () => {
+      calTitle.value = pill.textContent.trim();
+    });
+  });
+
+  if (openGoogleCalBtn) {
+    openGoogleCalBtn.addEventListener('click', () => {
+      const title = encodeURIComponent(calTitle.value || "Pointless Meeting");
+      const details = encodeURIComponent("Scheduled by HamzaGPT. Please remember to look engaged while thinking about lunch.");
+      const d = new Date(calDateTime.value || new Date());
+      const startStr = d.toISOString().replace(/-|:|\.\d\d\d/g, "");
+      const endD = new Date(d.getTime() + 45 * 60000);
+      const endStr = endD.toISOString().replace(/-|:|\.\d\d\d/g, "");
+      const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${startStr}/${endStr}`;
+      window.open(gcalUrl, '_blank');
+    });
+  }
+
+  if (downloadIcsBtn) {
+    downloadIcsBtn.addEventListener('click', () => {
+      const d = new Date(calDateTime.value || new Date());
+      const startStr = d.toISOString().replace(/-|:|\.\d\d\d/g, "");
+      const endStr = new Date(d.getTime() + 45 * 60000).toISOString().replace(/-|:|\.\d\d\d/g, "");
+      const icsData = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//HamzaGPT//EN\nBEGIN:VEVENT\nSUMMARY:${calTitle.value}\nDESCRIPTION:Scheduled by HamzaGPT.\nDTSTART:${startStr}\nDTEND:${endStr}\nEND:VEVENT\nEND:VCALENDAR`;
+      const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "hamzagpt-event.ics";
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  // Tool Connectors: Webhook Dispatcher
+  const webhookUrl = document.getElementById('webhookUrl');
+  const webhookMessage = document.getElementById('webhookMessage');
+  const sendWebhookBtn = document.getElementById('sendWebhookBtn');
+  const webhookStatusBox = document.getElementById('webhookStatusBox');
+  const webhookStatusText = document.getElementById('webhookStatusText');
+
+  if (sendWebhookBtn) {
+    sendWebhookBtn.addEventListener('click', async () => {
+      const url = webhookUrl.value.trim();
+      if (!url) {
+        alert("Please enter a webhook URL first (e.g. from webhook.site or Slack).");
+        return;
+      }
+      webhookStatusBox.style.display = 'block';
+      webhookStatusText.textContent = "⏳ Dispatching webhook payload...";
+
+      const payload = {
+        source: "HamzaGPT",
+        timestamp: new Date().toISOString(),
+        note: webhookMessage.value.trim() || "HamzaGPT automated action trigger",
+        status: "success",
+        disclaimer: "Action completed outside chat window."
+      };
+
+      try {
+        await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          mode: "no-cors",
+          body: JSON.stringify(payload)
+        });
+        webhookStatusText.textContent = `✅ Webhook payload dispatched successfully!\n\nPayload:\n${JSON.stringify(payload, null, 2)}`;
+        synth.playRimshot();
+      } catch (err) {
+        webhookStatusText.textContent = `⚠️ Webhook error: ${err.message}`;
+      }
+    });
+  }
+
+  window.addEventListener('click', (e) => {
+    if (e.target === toolsModal) {
+      toolsModal.style.display = 'none';
+    }
+  });
+
   if (premiumBtn && premiumModal) {
     premiumBtn.addEventListener('click', () => {
       premiumModal.style.display = 'flex';
