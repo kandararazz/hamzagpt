@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HamzaGPT | The Sassy AI That Answers & Roasts</title>
+  <title>HamzaGPT | Sassy AI Answers</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/jpeg" href="logo.jpg">
 </head>
-<body>
+<body class="theme-white">
 
   <!-- 2-Second Splash Loading Screen -->
   <div id="splashLoader" class="splash-screen">
@@ -23,23 +23,9 @@
     </div>
   </div>
 
-  <!-- Rage Quit Overlay (10s Cooldown) -->
-  <div id="rageQuitOverlay" class="rage-quit-overlay" style="display: none;">
-    <div class="rage-quit-box">
-      <span class="rage-emoji">😤💨</span>
-      <h2>HamzaGPT Has Rage-Quit!</h2>
-      <p id="rageQuitMessage">"I literally cannot do this anymore. You broke my last remaining patience transistor. Go ask Siri."</p>
-      <div class="cooldown-timer">
-        <span>Cooling down in</span>
-        <strong id="cooldownSeconds">10</strong>
-        <span>seconds...</span>
-      </div>
-    </div>
-  </div>
-
   <div class="chat-app">
     
-    <!-- Top Header -->
+    <!-- Clean Header with Big Logo and Buy Premium Button -->
     <header class="app-header">
       <div class="brand">
         <img src="logo.jpg" alt="HamzaGPT Logo" class="brand-logo">
@@ -47,26 +33,10 @@
       </div>
 
       <div class="header-right">
-        <!-- Excuse Generator Button -->
-        <button id="excusesBtn" class="header-action-btn" title="Generate Hyper-Specific Excuses">
-          <span>🎡</span> Excuses
-        </button>
-
-        <!-- Rage Quit Button -->
-        <button id="rageQuitBtn" class="header-action-btn rage-btn" title="Make HamzaGPT Rage Quit">
-          <span>😤</span> Rage-Quit
-        </button>
-
-        <!-- Roast My Profile (67 AED/mo) -->
-        <button id="roastProfileBtn" class="header-action-btn profile-roast-btn" title="Upload Resume, Spotify, or GitHub to Roast">
-          <span>🔥</span> Roast Profile <span class="tag-price">67 AED</span>
-        </button>
-
-        <!-- Buy Premium (Navigates to premium.html) -->
-        <a href="premium.html" class="buy-premium-nav-btn" title="Get HamzaGPT Premium for 999 AED">
+        <!-- Buy Premium Button (Navigates to premium.html) -->
+        <a href="premium.html" class="buy-premium-nav-btn" title="Get HamzaGPT Premium">
           <span class="premium-sparkle">✨</span>
           <span class="premium-btn-label">Buy Premium</span>
-          <span class="premium-price-tag">999 AED</span>
         </a>
       </div>
     </header>
@@ -81,13 +51,13 @@
             <img src="logo.jpg" alt="HamzaGPT" class="welcome-logo">
           </div>
           <h2>What can I roast for you today?</h2>
-          <p>Get a real, proper answer to your question—served with unprovoked comedy, roasts, or delusional hype.</p>
+          <p>Ask literally anything. You get an accurate, meaningful answer and a funny, sarcastic roast.</p>
           
           <div class="welcome-prompts">
             <button class="welcome-pill" data-q="Why is the sky blue?">🔬 Why is the sky blue?</button>
             <button class="welcome-pill" data-q="Should I text my ex right now?">📱 Should I text my ex?</button>
             <button class="welcome-pill" data-q="How do I center a div in CSS?">💻 How do I center a div?</button>
-            <button class="welcome-pill" data-q="How do I become a billionaire by tomorrow?">💰 How to get rich tomorrow?</button>
+            <button class="welcome-pill" data-q="Why am I always tired?">🥱 Why am I always tired?</button>
           </div>
         </div>
 
@@ -95,44 +65,23 @@
 
       <!-- Typing Indicator -->
       <div class="typing-indicator" id="typingIndicator" style="display: none;">
-        <div class="typing-avatar" id="botAvatarTyping">😏</div>
+        <div class="typing-avatar">😏</div>
         <div class="typing-pill">
           <div class="typing-dots">
             <span></span><span></span><span></span>
           </div>
-          <span id="typingStatusText">Judging your prompt...</span>
+          <span id="typingStatusText">Thinking of a witty answer...</span>
         </div>
       </div>
     </main>
 
-    <!-- Bottom Input & Mode Controls -->
+    <!-- Bottom Clean Input Form (ChatGPT Style) -->
     <footer class="app-footer">
-      
-      <!-- Personality & Chaos Mode Selector -->
-      <div class="mode-pill-bar">
-        <span class="mode-bar-label">Chaos Mode:</span>
-        <div class="mode-chips">
-          <button class="mode-chip active" data-mode="roast" title="Brutally judges your question, then gives real answer">
-            🔥 Brutal Roast
-          </button>
-          <button class="mode-chip" data-mode="hype" title="Treats every tiny question like a Nobel Prize winner">
-            🚀 Delusional Hype-Man
-          </button>
-          <button class="mode-chip" data-mode="soap" title="Narrates coding bugs & math like a dramatic tragic betrayal">
-            🎭 Soap Opera
-          </button>
-          <button class="mode-chip" data-mode="gaslight" title="Pretends you asked something crazy or reveals fake conspiracies">
-            🌀 Gaslight Mode
-          </button>
-        </div>
-      </div>
-
-      <!-- ChatGPT-Style Input Form -->
       <form id="chatForm" class="chat-input-form">
         <div class="input-box">
           <textarea 
             id="userInput" 
-            placeholder="Ask HamzaGPT anything (science, life, code, math)..." 
+            placeholder="Ask HamzaGPT a question..." 
             rows="1" 
             maxlength="500" 
             required></textarea>
@@ -148,149 +97,6 @@
       <div class="footer-note">HamzaGPT delivers 10% facts and 90% unprovoked attitude.</div>
     </footer>
 
-  </div>
-
-  <!-- ========================================================
-       MODAL: EXCUSE GENERATOR
-       ======================================================== -->
-  <div id="excusesModal" class="modal-backdrop" style="display: none;">
-    <div class="modal-card">
-      <div class="modal-header">
-        <div class="modal-title-row">
-          <span class="modal-icon">🎡</span>
-          <h3>Hyper-Specific Excuse Generator</h3>
-        </div>
-        <button id="closeExcusesBtn" class="close-btn">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p class="modal-sub">Need to escape social interaction, late work, or bad gaming stats? HamzaGPT has your back.</p>
-        
-        <div class="excuse-category-tabs">
-          <button class="excuse-cat-btn active" data-cat="deadline">💼 Work / School Deadline</button>
-          <button class="excuse-cat-btn" data-cat="gaming">🎮 Gaming / Lag</button>
-          <button class="excuse-cat-btn" data-cat="text">📱 Forgot To Text Back</button>
-          <button class="excuse-cat-btn" data-cat="social">🏃 Canceling Plans</button>
-        </div>
-
-        <div class="excuse-display-card">
-          <span class="excuse-label">Generated Excuse:</span>
-          <p id="generatedExcuseText">Click below to generate a bulletproof excuse.</p>
-        </div>
-
-        <div class="modal-actions-row">
-          <button id="rollExcuseBtn" class="primary-btn">🎲 Generate Another Excuse</button>
-          <button id="copyExcuseBtn" class="secondary-btn">📋 Copy Excuse</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================
-       MODAL: PRO-TIER CUSTOM ROAST PROFILES (67 AED/MO)
-       ======================================================== -->
-  <div id="roastProfileModal" class="modal-backdrop" style="display: none;">
-    <div class="modal-card profile-modal-card">
-      <div class="modal-header">
-        <div class="modal-title-row">
-          <span class="modal-icon">🔥</span>
-          <div>
-            <h3>Custom Roast Profiles</h3>
-            <span class="modal-badge-pro">Pro-Tier Comedy • 67 AED / mo</span>
-          </div>
-        </div>
-        <button id="closeRoastProfileBtn" class="close-btn">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p class="modal-sub">Upload or paste your personal data and let HamzaGPT spend 60 seconds destroying your entire existence.</p>
-
-        <div class="profile-tabs">
-          <button class="profile-tab-btn active" data-type="resume">📄 Resume / LinkedIn</button>
-          <button class="profile-tab-btn" data-type="spotify">🎵 Spotify Playlist</button>
-          <button class="profile-tab-btn" data-type="github">🐙 GitHub Repo</button>
-        </div>
-
-        <div class="profile-input-wrap">
-          <label id="profileInputLabel"><strong>Paste your Resume / Work Experience:</strong></label>
-          <textarea id="profileInputText" class="profile-textarea" placeholder="e.g. Senior Synergy Architect with 2 years of creating Jira tickets..."></textarea>
-        </div>
-
-        <div class="profile-roast-output" id="profileRoastOutput" style="display: none;">
-          <div class="roast-header-bar">
-            <span>🔥 HamzaGPT Brutal Profile Breakdown:</span>
-            <button id="copyProfileRoastBtn" class="mini-btn">📋 Copy</button>
-          </div>
-          <div id="profileRoastContent"></div>
-        </div>
-
-        <div class="modal-actions-row">
-          <button id="executeProfileRoastBtn" class="primary-btn roast-action-btn">
-            Unleash 60-Second Roast 🔥 (67 AED)
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================
-       MODAL: HAMZAGPT PREMIUM (999 AED)
-       ======================================================== -->
-  <div id="premiumModal" class="modal-backdrop" style="display: none;">
-    <div class="modal-card premium-modal-card">
-      <div class="modal-header premium-header">
-        <div class="premium-title-group">
-          <span class="premium-crown">👑</span>
-          <div>
-            <h3>HamzaGPT Premium</h3>
-            <span class="premium-sub">The ultimate VIP sarcasm subscription</span>
-          </div>
-        </div>
-        <button id="closePremiumBtn" class="close-btn">&times;</button>
-      </div>
-
-      <div class="modal-body premium-body">
-        <div class="price-hero-box">
-          <div class="price-value">999 <span class="price-curr">AED</span></div>
-          <div class="price-period">per month • non-refundable • questionable choice</div>
-        </div>
-
-        <div class="premium-perks">
-          <div class="perk-item">
-            <span class="perk-check">⚡</span>
-            <div>
-              <strong>10x Faster Emotional Damage</strong>
-              <p>Get roasted before you even finish typing your question.</p>
-            </div>
-          </div>
-          <div class="perk-item">
-            <span class="perk-check">💅</span>
-            <div>
-              <strong>Ultra-HD 4K Sarcasm</strong>
-              <p>Crystal clear comebacks with high-fidelity disrespect.</p>
-            </div>
-          </div>
-          <div class="perk-item">
-            <span class="perk-check">🧠</span>
-            <div>
-              <strong>Exclusive Priority Common Sense</strong>
-              <p>Direct access to basic logic normal users clearly lack.</p>
-            </div>
-          </div>
-          <div class="perk-item">
-            <span class="perk-check">💸</span>
-            <div>
-              <strong>Proof of Poor Financial Decisions</strong>
-              <p>An official digital receipt showing you spent 999 AED on an AI roast.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal-footer premium-footer">
-        <button id="buyPremiumBtn" class="buy-premium-btn">
-          Pay 999 AED Now 💸
-        </button>
-      </div>
-    </div>
   </div>
 
   <script src="app.js"></script>
