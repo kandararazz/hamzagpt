@@ -340,6 +340,229 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // ========================================================
+  // MINI SNAKE GAME LOGIC
+  // ========================================================
+  const snakeGameBtn = document.getElementById('snakeGameBtn');
+  const snakeModal = document.getElementById('snakeModal');
+  const closeSnakeBtn = document.getElementById('closeSnakeBtn');
+  const restartSnakeBtn = document.getElementById('restartSnakeBtn');
+  const snakeCanvas = document.getElementById('snakeCanvas');
+  const snakeScoreEl = document.getElementById('snakeScore');
+  const snakeHighScoreEl = document.getElementById('snakeHighScore');
+  const snakeGameOverOverlay = document.getElementById('snakeGameOverOverlay');
+  const snakeRoastText = document.getElementById('snakeRoastText');
+
+  let ctx = null;
+  if (snakeCanvas) ctx = snakeCanvas.getContext('2d');
+
+  const gridSize = 20; // 20px tiles
+  const tileCount = 16; // 16x16 = 320x320
+  let snake = [];
+  let food = { x: 5, y: 5 };
+  let velocity = { x: 0, y: 0 };
+  let nextVelocity = { x: 0, y: 0 };
+  let snakeScore = 0;
+  let snakeHighScore = parseInt(localStorage.getItem('hamzagpt_snake_highscore') || '0', 10);
+  let gameInterval = null;
+  let isGameRunning = false;
+
+  if (snakeHighScoreEl) snakeHighScoreEl.textContent = snakeHighScore;
+
+  const SNAKE_ROASTS = [
+    (s) => `Bro scored ${s} points? Were you controlling the snake with your forehead?`,
+    (s) => `Died with a score of ${s}. Your reflexes are slower than dial-up internet in 1998.`,
+    (s) => `Score: ${s}. Even the wall didn't expect you to walk into it that fast.`,
+    (s) => `${s} points! Incredible display of zero hand-eye coordination.`,
+    (s) => `Score: ${s}. Go back to asking AI questions, gaming is clearly not your calling.`
+  ];
+
+  function startSnakeGame() {
+    snake = [
+      { x: 8, y: 8 },
+      { x: 8, y: 9 },
+      { x: 8, y: 10 }
+    ];
+    velocity = { x: 0, y: -1 };
+    nextVelocity = { x: 0, y: -1 };
+    snakeScore = 0;
+    snakeScoreEl.textContent = snakeScore;
+    snakeGameOverOverlay.style.display = 'none';
+    spawnFood();
+    isGameRunning = true;
+
+    if (gameInterval) clearInterval(gameInterval);
+    gameInterval = setInterval(gameLoop, 120);
+  }
+
+  function spawnFood() {
+    food = {
+      x: Math.floor(Math.random() * tileCount),
+      y: Math.floor(Math.random() * tileCount)
+    };
+    // Ensure food doesn't spawn on snake body
+    for (const segment of snake) {
+      if (segment.x === food.x && segment.y === food.y) {
+        spawnFood();
+        break;
+      }
+    }
+  }
+
+  function gameLoop() {
+    if (!isGameRunning) return;
+
+    // Apply queued direction
+    velocity = { ...nextVelocity };
+
+    // Move snake head
+    const head = { x: snake[0].x + velocity.x, y: snake[0].y + velocity.y };
+
+    // Check Wall Collision
+    if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
+      handleGameOver();
+      return;
+    }
+
+    // Check Self Collision
+    for (const segment of snake) {
+      if (segment.x === head.x && segment.y === head.y) {
+        handleGameOver();
+        return;
+      }
+    }
+
+    snake.unshift(head);
+
+    // Check Food Collision
+    if (head.x === food.x && head.y === food.y) {
+      snakeScore += 1;
+      snakeScoreEl.textContent = snakeScore;
+      if (snakeScore > snakeHighScore) {
+        snakeHighScore = snakeScore;
+        snakeHighScoreEl.textContent = snakeHighScore;
+        localStorage.setItem('hamzagpt_snake_highscore', snakeHighScore);
+      }
+      synth.playPop();
+      spawnFood();
+    } else {
+      snake.pop();
+    }
+
+    drawGame();
+  }
+
+  function drawGame() {
+    if (!ctx) return;
+
+    // Clear board (crisp white/off-white)
+    ctx.fillStyle = "#f8fafc";
+    ctx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+
+    // Subtle Grid pattern
+    ctx.strokeStyle = "#edf2f7";
+    ctx.lineWidth = 1;
+    for (let i = 0; i < tileCount; i++) {
+      ctx.beginPath();
+      ctx.moveTo(i * gridSize, 0);
+      ctx.lineTo(i * gridSize, snakeCanvas.height);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(0, i * gridSize);
+      ctx.lineTo(snakeCanvas.width, i * gridSize);
+      ctx.stroke();
+    }
+
+    // Draw Food (Apple red with slight radius)
+    ctx.fillStyle = "#ef4444";
+    ctx.beginPath();
+    ctx.arc(
+      food.x * gridSize + gridSize / 2,
+      food.y * gridSize + gridSize / 2,
+      gridSize / 2 - 2,
+      0,
+      Math.PI * 2
+    );
+    ctx.fill();
+
+    // Draw Snake (Solid sleek black)
+    snake.forEach((seg, index) => {
+      ctx.fillStyle = index === 0 ? "#000000" : "#334155";
+      ctx.fillRect(
+        seg.x * gridSize + 1,
+        seg.y * gridSize + 1,
+        gridSize - 2,
+        gridSize - 2
+      );
+    });
+  }
+
+  function handleGameOver() {
+    isGameRunning = false;
+    clearInterval(gameInterval);
+    synth.playSadTrombone();
+
+    const roastFunc = SNAKE_ROASTS[Math.floor(Math.random() * SNAKE_ROASTS.length)];
+    snakeRoastText.textContent = `"${roastFunc(snakeScore)}"`;
+    snakeGameOverOverlay.style.display = 'flex';
+  }
+
+  // Direction handler
+  function changeDirection(dir) {
+    if (!isGameRunning) return;
+    if (dir === 'up' && velocity.y !== 1) nextVelocity = { x: 0, y: -1 };
+    else if (dir === 'down' && velocity.y !== -1) nextVelocity = { x: 0, y: 1 };
+    else if (dir === 'left' && velocity.x !== 1) nextVelocity = { x: -1, y: 0 };
+    else if (dir === 'right' && velocity.x !== -1) nextVelocity = { x: 1, y: 0 };
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (!isGameRunning || snakeModal.style.display !== 'flex') return;
+    if (['ArrowUp', 'KeyW'].includes(e.code)) { e.preventDefault(); changeDirection('up'); }
+    else if (['ArrowDown', 'KeyS'].includes(e.code)) { e.preventDefault(); changeDirection('down'); }
+    else if (['ArrowLeft', 'KeyA'].includes(e.code)) { e.preventDefault(); changeDirection('left'); }
+    else if (['ArrowRight', 'KeyD'].includes(e.code)) { e.preventDefault(); changeDirection('right'); }
+  });
+
+  // Mobile D-pad button clicks
+  document.querySelectorAll('.dpad-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      changeDirection(btn.dataset.dir);
+    });
+  });
+
+  // Open & Close Modal
+  if (snakeGameBtn && snakeModal) {
+    snakeGameBtn.addEventListener('click', () => {
+      snakeModal.style.display = 'flex';
+      synth.playPop();
+      startSnakeGame();
+    });
+  }
+
+  if (closeSnakeBtn && snakeModal) {
+    closeSnakeBtn.addEventListener('click', () => {
+      snakeModal.style.display = 'none';
+      isGameRunning = false;
+      clearInterval(gameInterval);
+    });
+  }
+
+  if (restartSnakeBtn) {
+    restartSnakeBtn.addEventListener('click', () => {
+      startSnakeGame();
+    });
+  }
+
+  window.addEventListener('click', (e) => {
+    if (e.target === snakeModal) {
+      snakeModal.style.display = 'none';
+      isGameRunning = false;
+      clearInterval(gameInterval);
+    }
+  });
+
   // Auto-grow textarea
   userInput.addEventListener('input', () => {
     userInput.style.height = 'auto';
