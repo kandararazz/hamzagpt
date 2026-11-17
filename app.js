@@ -78,7 +78,7 @@ const OFFLINE_KNOWLEDGE_BASE = [
   },
   {
     keywords: ["who are you", "what are you", "hamza"],
-    answer: "I am hamza GPT, an interactive AI website built to answer your questions with proper, meaningful facts while giving you a hilarious reality check at the same time.",
+    answer: "I am Hamza GPT, an interactive AI website built to answer your questions with proper, meaningful facts while giving you a hilarious reality check at the same time.",
     roast: "Other AIs pretend to love your questions. I tell you the truth your friends are too polite to say.",
     badge: "About Me 🤖"
   }
@@ -102,7 +102,7 @@ const SMART_OFFLINE_FALLBACKS = [
 // LIVE AI API: MEANINGFUL ANSWER + FUNNY ROAST
 // ========================================================
 async function fetchSmartAnswerAndRoast(question) {
-  const systemPrompt = `You are hamza GPT, an intelligent and funny AI.
+  const systemPrompt = `You are Hamza GPT, an intelligent and funny AI.
 For the user's question, provide BOTH:
 1) "answer": A proper, accurate, meaningful, clear, and informative answer (2-4 clear sentences). It must actually explain the topic or answer the question factually.
 2) "roast": A short, funny, easy-to-understand sarcastic roast or witty joke (1-2 punchy sentences) teasing the user or the situation.
@@ -343,6 +343,44 @@ document.addEventListener('DOMContentLoaded', () => {
   const typingStatusText = document.getElementById('typingStatusText');
   const welcomeBox = document.getElementById('welcomeBox');
 
+  // HamzaGPT Premium Modal Handlers
+  const premiumBtn = document.getElementById('premiumBtn');
+  const premiumModal = document.getElementById('premiumModal');
+  const closePremiumBtn = document.getElementById('closePremiumBtn');
+  const buyPremiumBtn = document.getElementById('buyPremiumBtn');
+
+  if (premiumBtn && premiumModal) {
+    premiumBtn.addEventListener('click', () => {
+      premiumModal.style.display = 'flex';
+      synth.playPop();
+    });
+  }
+
+  if (closePremiumBtn && premiumModal) {
+    closePremiumBtn.addEventListener('click', () => {
+      premiumModal.style.display = 'none';
+    });
+  }
+
+  if (buyPremiumBtn) {
+    buyPremiumBtn.addEventListener('click', () => {
+      synth.playSadTrombone();
+      const origText = buyPremiumBtn.innerHTML;
+      buyPremiumBtn.innerHTML = "⚠️ Bank Declined: Even your card knows better!";
+      buyPremiumBtn.style.background = "#ef4444";
+      setTimeout(() => {
+        buyPremiumBtn.innerHTML = origText;
+        buyPremiumBtn.style.background = "#000000";
+      }, 3500);
+    });
+  }
+
+  window.addEventListener('click', (e) => {
+    if (e.target === premiumModal) {
+      premiumModal.style.display = 'none';
+    }
+  });
+
   // Auto-grow textarea
   userInput.addEventListener('input', () => {
     userInput.style.height = 'auto';
@@ -446,7 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="msg-avatar">😏</div>
       <div class="msg-bubble bot-bubble">
         <div class="msg-header">
-          <span class="msg-sender">hamza GPT</span>
+          <span class="msg-sender">Hamza GPT</span>
           <span class="msg-time">${getCurrentTime()}</span>
           <span class="msg-tag">${escapeHtml(data.badge || 'Answer & Roast 🔥')}</span>
         </div>

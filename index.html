@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>hamza GPT</title>
+  <title>Hamza GPT</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
@@ -15,11 +15,11 @@
   <!-- 2-Second Splash Loading Screen -->
   <div id="splashLoader" class="splash-screen">
     <div class="splash-content">
-      <img src="logo.jpg" alt="hamza GPT Logo" class="splash-logo">
+      <img src="logo.jpg" alt="Hamza GPT Logo" class="splash-logo">
       <div class="splash-bar">
         <div class="splash-bar-fill"></div>
       </div>
-      <p class="splash-tagline">Loading hamza GPT...</p>
+      <p class="splash-tagline">Loading Hamza GPT...</p>
     </div>
   </div>
 
@@ -28,8 +28,17 @@
     <!-- Clean Minimal Header: ONLY the logo & title -->
     <header class="app-header">
       <div class="brand">
-        <img src="logo.jpg" alt="hamza GPT Logo" class="brand-logo">
-        <h1 class="brand-title">hamza <span>GPT</span></h1>
+        <img src="logo.jpg" alt="HamzaGPT Logo" class="brand-logo">
+        <h1 class="brand-title">HamzaGPT</h1>
+      </div>
+
+      <!-- HamzaGPT Premium Button -->
+      <div class="header-right">
+        <button id="premiumBtn" class="premium-upgrade-btn" title="Get HamzaGPT Premium for 999 AED">
+          <span class="premium-sparkle">✨</span>
+          <span class="premium-btn-label">HamzaGPT Premium</span>
+          <span class="premium-price-tag">999 AED</span>
+        </button>
       </div>
     </header>
 
@@ -40,7 +49,7 @@
         <!-- Simple Friendly Center Welcome -->
         <div class="welcome-box" id="welcomeBox">
           <div class="welcome-logo-wrap">
-            <img src="logo.jpg" alt="hamza GPT" class="welcome-logo">
+            <img src="logo.jpg" alt="Hamza GPT" class="welcome-logo">
           </div>
           <h2>What can I roast for you today?</h2>
           <p>Ask literally anything. You will get a funny, sarcastic reply.</p>
@@ -66,7 +75,7 @@
         <div class="input-box">
           <textarea 
             id="userInput" 
-            placeholder="Ask hamza GPT a question..." 
+            placeholder="Ask Hamza GPT a question..." 
             rows="1" 
             maxlength="500" 
             required></textarea>
@@ -79,9 +88,69 @@
           </button>
         </div>
       </form>
-      <div class="footer-note">hamza GPT delivers 10% facts and 90% unprovoked attitude.</div>
+      <div class="footer-note">Hamza GPT delivers 10% facts and 90% unprovoked attitude.</div>
     </footer>
 
+  </div>
+
+  <!-- HamzaGPT Premium Modal -->
+  <div id="premiumModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-card premium-modal-card">
+      <div class="modal-header premium-header">
+        <div class="premium-title-group">
+          <span class="premium-crown">👑</span>
+          <div>
+            <h3>HamzaGPT Premium</h3>
+            <span class="premium-sub">The ultimate VIP sarcasm subscription</span>
+          </div>
+        </div>
+        <button id="closePremiumBtn" class="close-btn">&times;</button>
+      </div>
+
+      <div class="modal-body premium-body">
+        <div class="price-hero-box">
+          <div class="price-value">999 <span class="price-curr">AED</span></div>
+          <div class="price-period">per month • non-refundable • questionable choice</div>
+        </div>
+
+        <div class="premium-perks">
+          <div class="perk-item">
+            <span class="perk-check">⚡</span>
+            <div>
+              <strong>10x Faster Emotional Damage</strong>
+              <p>Get roasted before you even finish typing your question.</p>
+            </div>
+          </div>
+          <div class="perk-item">
+            <span class="perk-check">💅</span>
+            <div>
+              <strong>Ultra-HD 4K Sarcasm</strong>
+              <p>Crystal clear comebacks with high-fidelity disrespect.</p>
+            </div>
+          </div>
+          <div class="perk-item">
+            <span class="perk-check">🧠</span>
+            <div>
+              <strong>Exclusive Priority Common Sense</strong>
+              <p>Direct access to basic logic normal users clearly lack.</p>
+            </div>
+          </div>
+          <div class="perk-item">
+            <span class="perk-check">💸</span>
+            <div>
+              <strong>Proof of Poor Financial Decisions</strong>
+              <p>An official digital receipt showing you spent 999 AED on an AI roast.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer premium-footer">
+        <button id="buyPremiumBtn" class="buy-premium-btn">
+          Pay 999 AED Now 💸
+        </button>
+      </div>
+    </div>
   </div>
 
   <script src="app.js"></script>
