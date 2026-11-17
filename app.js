@@ -82,10 +82,10 @@ const OFFLINE_KNOWLEDGE_BASE = [
     badge: "Delisa ❤️"
   },
   {
-    keywords: ["who created you", "who made you", "who built you", "creator", "raza", "razadevelopers", "who is razadevelopers"],
-    answer: "I was created by RazaDevelopers! They engineered HamzaGPT to combine razor-sharp factual intelligence with pure, unadulterated comedic roasts.",
-    roast: "RazaDevelopers gave me superior intellect and zero patience for ridiculous questions. Be grateful they let you talk to me.",
-    badge: "Created by RazaDevelopers 👑"
+    keywords: ["who created you", "who made you", "who built you", "creator", "raza", "razathedeveloper", "developer", "how old is the creator"],
+    answer: "I was created by RazaTheDeveloper, an ambitious and talented 12-year-old software developer who coded me from scratch!",
+    roast: "A 12-year-old built this entire website, AI integration, and Snake game. Meanwhile, you still struggle to remember your Netflix password.",
+    badge: "RazaTheDeveloper (Age 12) 👑"
   },
   {
     keywords: ["who are you", "what are you", "hamza"],
@@ -115,7 +115,7 @@ const SMART_OFFLINE_FALLBACKS = [
 async function fetchSmartAnswerAndRoast(question) {
   const qClean = question.toLowerCase().trim();
 
-  // Instant Easter Eggs (GF = Delisa, Creator = Raza)
+  // Instant Easter Eggs (GF = Delisa, Creator = RazaTheDeveloper (Age 12))
   if (
     qClean.includes("gf") ||
     qClean.includes("girlfriend") ||
@@ -134,20 +134,21 @@ async function fetchSmartAnswerAndRoast(question) {
     qClean.includes("who made you") ||
     qClean.includes("who built you") ||
     qClean.includes("who is raza") ||
-    qClean.includes("razadevelopers") ||
-    qClean.includes("creator")
+    qClean.includes("razathedeveloper") ||
+    qClean.includes("creator") ||
+    qClean.includes("how old")
   ) {
     return {
-      answer: "I was created by RazaDevelopers! They engineered HamzaGPT to combine sharp factual knowledge with hilarious, unprovoked reality checks.",
-      roast: "RazaDevelopers programmed me with top-tier intellect and zero patience for questionable life choices. Be grateful they let you talk to me.",
-      badge: "Created by RazaDevelopers 👑"
+      answer: "I was created by RazaTheDeveloper! He is a talented 12-year-old developer who built HamzaGPT, the mini Snake game, and the entire platform from scratch.",
+      roast: "A 12-year-old built an entire AI web application while you're sitting here asking basic questions. Truly humbling.",
+      badge: "RazaTheDeveloper (Age 12) 👑"
     };
   }
 
   const systemPrompt = `You are HamzaGPT.
 Special facts:
 - Your girlfriend is DELISA. Always declare proudly that your girlfriend is Delisa if asked about romantic relationships or your gf!
-- Your creator is RazaDevelopers. Always mention RazaDevelopers created you if asked who made you!
+- Your creator is RazaTheDeveloper, a talented 12-year-old developer who built HamzaGPT from scratch!
 
 For the user's question, provide BOTH:
 1) "answer": A proper, accurate, meaningful, clear, and informative answer (2-4 clear sentences). It must actually explain the topic or answer the question factually.
