@@ -1,6 +1,6 @@
 /**
  * ========================================================
- * HAMZA GPT - EASY & UNDERSTANDABLE ROAST ENGINE
+ * HAMZA GPT - DUAL ENGINE: MEANINGFUL ANSWER + FUNNY ROAST
  * ========================================================
  */
 
@@ -11,136 +11,175 @@ const state = {
   speechEnabled: true,
 };
 
-// Fun & Simple Typing Messages
+// Fun Typing Status Messages
 const TYPING_PHRASES = [
-  "Thinking of an easy roast...",
-  "Judging your question...",
-  "Loading a comeback...",
-  "Are you serious right now?...",
-  "Preparing emotional damage...",
+  "Finding the real answer & preparing a roast...",
+  "Consulting the facts and loading sarcasm...",
+  "Reading your question with mild concern...",
+  "Formulating the truth + a punchline...",
+  "Cooking up a helpful answer with extra attitude...",
 ];
 
-// Easy, Simple, and Understandable Roasts
-const SASSY_DATABASE = [
-  // SLEEP / TIRED
+// Offline Fallback Knowledge Base (Real Meaningful Answers + Funny Roasts)
+const OFFLINE_KNOWLEDGE_BASE = [
   {
-    keywords: ["tired", "sleep", "insomnia", "exhausted", "bed", "awake", "nap"],
-    answer: {
-      text: "You're tired because you were on your phone until 3 AM watching useless videos.",
-      punchline: "Put your phone down and go to sleep. Your eyes look like glazed donuts.",
-      badge: "Sleep Deprived 🥱"
-    }
+    keywords: ["sky blue", "why is the sky blue"],
+    answer: "The sky is blue because of a phenomenon called Rayleigh scattering. Sunlight contains all colors of the rainbow, but gases in Earth's atmosphere scatter short blue wavelengths much more than other colors, making the sky look blue.",
+    roast: "You have a supercomputer in your pocket and you're using it to ask kindergarten science questions.",
+    badge: "Science 🔬"
   },
-
-  // MONEY / RICH / BROKE
   {
-    keywords: ["rich", "billionaire", "money", "broke", "wealth", "lottery", "crypto", "bitcoin", "millionaire", "cash", "invest"],
-    answer: {
-      text: "You want to be rich, but you spend all your money on food delivery and iced coffee.",
-      punchline: "Your bank account has $4 and you're dreaming about a Lamborghini.",
-      badge: "Broke Alert 💸"
-    }
+    keywords: ["tired", "sleep", "insomnia", "exhausted", "awake"],
+    answer: "You are tired because blue light from screens suppresses melatonin (your sleep hormone), your sleep schedule is inconsistent, or you are physically dehydrated. Adults need 7-9 hours of continuous sleep to restore cognitive function.",
+    roast: "Stop doomscrolling at 3 AM watching strangers eat spicy noodles. Your eyes look like glazed donuts.",
+    badge: "Health 🥱"
   },
-
-  // LOVE / DATING / EX
   {
-    keywords: ["ex", "love", "dating", "crush", "girlfriend", "boyfriend", "relationship", "text my ex", "single", "marry", "tinder"],
-    answer: {
-      text: "Do NOT text your ex! They moved on, and you should too.",
-      punchline: "Have some self-respect. Delete their number and go eat a snack.",
-      badge: "Down Bad 🤡"
-    }
+    keywords: ["rich", "billionaire", "money", "wealth", "invest", "lottery"],
+    answer: "Building wealth requires spending less than you earn, consistently investing in broad market index funds or high-value skills, and avoiding high-interest debt over decades.",
+    roast: "You have $4 in your bank account and you just spent $8 on food delivery. The only thing you're building is poverty.",
+    badge: "Finance 💸"
   },
-
-  // HOMEWORK / SCHOOL / MATH
   {
-    keywords: ["homework", "math", "calculator", "study", "exam", "test", "school", "college", "2+2", "science"],
-    answer: {
-      text: "Do your own homework! I'm not going to school for you.",
-      punchline: "If I do your homework today, you're still gonna fail the test tomorrow.",
-      badge: "Lazy Student 📚"
-    }
+    keywords: ["ex", "love", "dating", "crush", "girlfriend", "boyfriend", "text my ex"],
+    answer: "Relationship experts advise against texting an ex right after a breakup because nostalgia causes cognitive bias, making you forget why the relationship ended in the first place.",
+    roast: "They haven't texted you in 3 weeks. Have some self-respect, put the phone down, and go eat a taco.",
+    badge: "Relationship 💔"
   },
-
-  // PROGRAMMING / CODING / BUGS
   {
-    keywords: ["code", "coding", "programmer", "programming", "javascript", "python", "bug", "software", "developer"],
-    answer: {
-      text: "Your code isn't working because you don't read error messages.",
-      punchline: "Staring at the screen won't fix it. You made the mistake, not the computer.",
-      badge: "Skill Issue 💻"
-    }
+    keywords: ["homework", "math", "test", "exam", "school", "2+2"],
+    answer: "Mathematics and homework are designed to build logical problem-solving neural pathways in the brain. 2 + 2 equals 4 under standard arithmetic axioms.",
+    roast: "If I do your homework for you, you're still gonna fail the test tomorrow. Open the textbook and read.",
+    badge: "Academics 📚"
   },
-
-  // FOOD / DIET / GYM
   {
-    keywords: ["food", "diet", "gym", "workout", "fat", "weight", "pizza", "eat", "hungry", "healthy", "exercise"],
-    answer: {
-      text: "You want a six-pack, but you just ate a whole pizza by yourself on the couch.",
-      punchline: "The only workout you did today was walking to the fridge.",
-      badge: "Couch Potato 🍕"
-    }
+    keywords: ["code", "bug", "programming", "python", "javascript", "developer"],
+    answer: "Code has bugs because computers execute instructions literally. Logical oversights, incorrect types, and unhandled edge cases cause unintended runtime behavior.",
+    roast: "The computer didn't make a mistake, you did. Staring at the screen with your mouth open won't fix line 42.",
+    badge: "Tech 💻"
   },
-
-  // MEANING OF LIFE / WHY ARE WE HERE
   {
-    keywords: ["meaning of life", "why are we here", "purpose", "exist", "philosophy", "universe", "destiny"],
-    answer: {
-      text: "The meaning of life is simple: eat good food, sleep well, and stop overthinking.",
-      punchline: "Why are you asking deep questions when you haven't even brushed your teeth today?",
-      badge: "Overthinking 🤔"
-    }
+    keywords: ["alien", "aliens", "ufo", "space", "fermi"],
+    answer: "Scientifically, the Fermi Paradox asks why we haven't found alien life given the billions of habitable planets in our galaxy. Factors include vast cosmic distances and the timeline of technological civilizations.",
+    roast: "If aliens saw the stuff humans post on the internet, they locked their spaceship doors and flew away at light speed.",
+    badge: "Cosmos 🛸"
   },
-
-  // ALIENS / UFO
   {
-    keywords: ["alien", "aliens", "ufo", "space", "sky", "flat earth", "moon"],
-    answer: {
-      text: "If aliens came to Earth and saw you, they would lock their doors and fly away.",
-      punchline: "They don't want to talk to us, and honestly, I don't blame them.",
-      badge: "Alien Avoided 🛸"
-    }
+    keywords: ["meaning of life", "why are we here", "purpose"],
+    answer: "Philosophers define the meaning of life as creating personal purpose: connecting with people you care about, contributing to your community, learning, and enjoying sensory experiences.",
+    roast: "Why are you pondering the meaning of the universe when you haven't even brushed your teeth today?",
+    badge: "Philosophy 🤔"
   },
-
-  // WHO ARE YOU / HAMZA GPT
   {
-    keywords: ["who are you", "what are you", "hamza", "who made you", "bot", "ai", "chatgpt"],
-    answer: {
-      text: "I am hamza GPT. You ask a question, and I roast you with the truth.",
-      punchline: "Other AIs act nice. I tell you what your friends are afraid to say.",
-      badge: "Real Talk 🤖"
-    }
+    keywords: ["water wet", "is water wet"],
+    answer: "In chemistry, liquid water makes other solid materials wet by adhering to their surfaces. Water molecules are cohesive with each other, so scientists debate whether water itself is wet or merely the wetting agent.",
+    roast: "Congratulations on asking the most debated argument of middle school lunch tables.",
+    badge: "Physics 💧"
+  },
+  {
+    keywords: ["who are you", "what are you", "hamza"],
+    answer: "I am hamza GPT, an interactive AI website built to answer your questions with proper, meaningful facts while giving you a hilarious reality check at the same time.",
+    roast: "Other AIs pretend to love your questions. I tell you the truth your friends are too polite to say.",
+    badge: "About Me 🤖"
   }
 ];
 
-// Simple, Funny, Easy Fallback Roasts for any other question
-const EASY_FALLBACK_ROASTS = [
+// Fallback when offline for unmatched questions
+const SMART_OFFLINE_FALLBACKS = [
   {
-    text: "Bro, why are you asking this? Use your brain for 5 seconds.",
-    punchline: "Google is completely free, but common sense is priceless.",
-    badge: "Common Sense 🧠"
+    answer: (q) => `To answer "${q}": The primary cause or solution usually depends on understanding the basic principles involved, evaluating the evidence, and taking a practical, logical step-by-step approach.`,
+    roast: "I just gave you the polite textbook answer, but deep down you already know what common sense says.",
+    badge: "Answered 💡"
   },
   {
-    text: "I lost brain cells reading your question.",
-    punchline: "Please close your laptop, drink some water, and think about your choices.",
-    badge: "Brain Melt 💀"
-  },
-  {
-    text: "You really sat there, typed that out, and thought it was a smart idea.",
-    punchline: "Even your Wi-Fi router is embarrassed for you right now.",
-    badge: "Embarrassing 📉"
-  },
-  {
-    text: "The answer is NO. Don't do it, don't think about it, just stop.",
-    punchline: "I am literally saving you from embarrassing yourself.",
-    badge: "Bad Idea 🛑"
-  },
-  {
-    text: "I could give you the answer, but you probably wouldn't listen anyway.",
-    punchline: "Ask a mirror who is really causing all your life problems.",
-    badge: "Reality Check 🪞"
+    answer: (q) => `Regarding "${q}": Most research and practical experience show that consistency, proper research, and avoiding hasty decisions produce the best results.`,
+    roast: "Use your brain for 5 seconds before jumping into bad decisions.",
+    badge: "Advice 🧠"
   }
 ];
+
+// ========================================================
+// LIVE AI API: MEANINGFUL ANSWER + FUNNY ROAST
+// ========================================================
+async function fetchSmartAnswerAndRoast(question) {
+  const systemPrompt = `You are hamza GPT, an intelligent and funny AI.
+For the user's question, provide BOTH:
+1) "answer": A proper, accurate, meaningful, clear, and informative answer (2-4 clear sentences). It must actually explain the topic or answer the question factually.
+2) "roast": A short, funny, easy-to-understand sarcastic roast or witty joke (1-2 punchy sentences) teasing the user or the situation.
+3) "badge": A short 1-2 word topic badge with an emoji (e.g. "Science 🔬", "Life 💡", "Tech 💻", "History 📜", "Food 🍕").
+
+Respond ONLY in this exact JSON structure:
+{
+  "answer": "Clear meaningful factual explanation here",
+  "roast": "Funny, witty sarcastic comeback or joke here",
+  "badge": "Topic 🎯"
+}`;
+
+  const payload = {
+    messages: [
+      { role: "system", content: systemPrompt },
+      { role: "user", content: question }
+    ],
+    jsonMode: true
+  };
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 6500); // 6.5s timeout
+
+  try {
+    const res = await fetch("https://text.pollinations.ai/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!res.ok) throw new Error("AI service temporary error");
+
+    const text = await res.text();
+    // Parse JSON safely
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0]);
+      if (parsed.answer && parsed.roast) {
+        return parsed;
+      }
+    }
+    throw new Error("Invalid format from AI");
+  } catch (err) {
+    clearTimeout(timeoutId);
+    console.warn("Falling back to local knowledge base:", err);
+    return getOfflineResponse(question);
+  }
+}
+
+// Local knowledge fallback
+function getOfflineResponse(question) {
+  const qLower = question.toLowerCase().trim();
+
+  // Search keyword database
+  for (const item of OFFLINE_KNOWLEDGE_BASE) {
+    for (const kw of item.keywords) {
+      if (qLower.includes(kw)) {
+        return {
+          answer: item.answer,
+          roast: item.roast,
+          badge: item.badge
+        };
+      }
+    }
+  }
+
+  // Fallback
+  const randomFallback = SMART_OFFLINE_FALLBACKS[Math.floor(Math.random() * SMART_OFFLINE_FALLBACKS.length)];
+  return {
+    answer: randomFallback.answer(question),
+    roast: randomFallback.roast,
+    badge: randomFallback.badge
+  };
+}
 
 // ========================================================
 // WEB AUDIO SYNTHESIZER
@@ -165,8 +204,8 @@ class AudioSynthesizer {
     this.init();
     if (!this.ctx) return;
     const t = this.ctx.currentTime;
-    this._playDrumTone(t, 140, 45, 0.14);
-    this._playDrumTone(t + 0.18, 220, 90, 0.12);
+    this._playTone(t, 140, 45, 0.14);
+    this._playTone(t + 0.18, 220, 90, 0.12);
     this._playHiHat(t + 0.36, 0.35);
   }
 
@@ -215,13 +254,13 @@ class AudioSynthesizer {
     osc.stop(t + 0.08);
   }
 
-  _playDrumTone(time, startFreq, endFreq, duration) {
+  _playTone(time, startFreq, endFreq, duration) {
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
     osc.type = 'sine';
     osc.frequency.setValueAtTime(startFreq, time);
     osc.frequency.exponentialRampToValueAtTime(endFreq, time + duration);
-    gain.gain.setValueAtTime(0.3, time);
+    gain.gain.setValueAtTime(0.28, time);
     gain.gain.exponentialRampToValueAtTime(0.001, time + duration);
     osc.connect(gain);
     gain.connect(this.ctx.destination);
@@ -255,7 +294,7 @@ class AudioSynthesizer {
 const synth = new AudioSynthesizer();
 
 // ========================================================
-// SPEECH SYNTHESIS (Voice Out Loud)
+// SPEECH SYNTHESIS ENGINE (Voice Out Loud)
 // ========================================================
 class SpeechEngine {
   constructor() {
@@ -278,25 +317,6 @@ class SpeechEngine {
 }
 
 const speechEngine = new SpeechEngine();
-
-// ========================================================
-// FIND RESPONSE
-// ========================================================
-function generateResponse(question) {
-  const qLower = question.toLowerCase().trim();
-
-  // Check matching keyword
-  for (const entry of SASSY_DATABASE) {
-    for (const kw of entry.keywords) {
-      if (qLower.includes(kw)) {
-        return entry.answer;
-      }
-    }
-  }
-
-  // Pick an easy fallback roast
-  return EASY_FALLBACK_ROASTS[Math.floor(Math.random() * EASY_FALLBACK_ROASTS.length)];
-}
 
 // ========================================================
 // UI INITIALIZATION & EVENT HANDLERS
@@ -329,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
     userInput.style.height = `${Math.min(userInput.scrollHeight, 120)}px`;
   });
 
-  // Enter to send
+  // Enter sends message
   userInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -383,23 +403,21 @@ document.addEventListener('DOMContentLoaded', () => {
     typingIndicator.style.display = 'flex';
     chatArea.scrollTop = chatArea.scrollHeight;
 
-    // 3. Comedic Delay (500ms - 800ms)
-    const delay = Math.floor(Math.random() * 300) + 500;
-    await new Promise(r => setTimeout(r, delay));
+    // 3. Fetch Meaningful Answer + Funny Roast
+    const data = await fetchSmartAnswerAndRoast(query);
 
-    // 4. Generate Response
-    const response = generateResponse(query);
+    // Hide typing
     typingIndicator.style.display = 'none';
 
-    // 5. Render Bot Message
-    renderBotMessage(response);
+    // 4. Render Bot Message with BOTH Meaningful Answer + Funny Roast
+    renderBotMessage(data);
 
-    // 6. Play comedic sound effect
-    if (Math.random() < 0.5) synth.playRimshot();
+    // 5. Sound effect
+    if (Math.random() < 0.6) synth.playRimshot();
     else synth.playSadTrombone();
 
-    // 7. Auto read aloud
-    speechEngine.speak(`${response.text} ${response.punchline}`);
+    // 6. Voice Read Aloud
+    speechEngine.speak(`${data.answer} ... ${data.roast}`);
   });
 
   function renderUserMessage(text) {
@@ -422,7 +440,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderBotMessage(data) {
     const wrapper = document.createElement('div');
     wrapper.className = 'message-wrapper bot-wrapper';
-    const fullTextForCopy = `"${data.text}" — ${data.punchline}`;
+    const fullTextForCopy = `Answer: ${data.answer}\nRoast: ${data.roast}`;
 
     wrapper.innerHTML = `
       <div class="msg-avatar">😏</div>
@@ -430,19 +448,26 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="msg-header">
           <span class="msg-sender">hamza GPT</span>
           <span class="msg-time">${getCurrentTime()}</span>
-          <span class="msg-tag">${escapeHtml(data.badge || 'Roast 🔥')}</span>
+          <span class="msg-tag">${escapeHtml(data.badge || 'Answer & Roast 🔥')}</span>
         </div>
         
-        <p>${escapeHtml(data.text)}</p>
-        <div class="punchline-box">
-          ${escapeHtml(data.punchline)}
+        <!-- 1. Real Proper Meaningful Answer -->
+        <div class="answer-section">
+          <div class="section-label">💡 The Answer</div>
+          <p class="answer-text">${escapeHtml(data.answer)}</p>
+        </div>
+
+        <!-- 2. Funny Sarcastic Roast -->
+        <div class="roast-section">
+          <div class="roast-label">🔥 Hamza's Roast</div>
+          <p class="roast-text">${escapeHtml(data.roast)}</p>
         </div>
 
         <div class="msg-actions">
           <button class="action-pill-btn copy-btn" data-text="${escapeHtml(fullTextForCopy)}">
             📋 Copy
           </button>
-          <button class="action-pill-btn speak-btn" data-text="${escapeHtml(data.text + ' ' + data.punchline)}">
+          <button class="action-pill-btn speak-btn" data-text="${escapeHtml(data.answer + ' ... ' + data.roast)}">
             🔊 Listen
           </button>
         </div>
