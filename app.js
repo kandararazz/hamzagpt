@@ -341,17 +341,19 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ========================================================
-  // MINI SNAKE GAME LOGIC
+  // MINI SNAKE GAME LOGIC (SMOOTH CONTROLS & ENHANCED VISUALS)
   // ========================================================
   const snakeGameBtn = document.getElementById('snakeGameBtn');
   const snakeModal = document.getElementById('snakeModal');
   const closeSnakeBtn = document.getElementById('closeSnakeBtn');
   const restartSnakeBtn = document.getElementById('restartSnakeBtn');
+  const snakePauseBtn = document.getElementById('snakePauseBtn');
   const snakeCanvas = document.getElementById('snakeCanvas');
   const snakeScoreEl = document.getElementById('snakeScore');
   const snakeHighScoreEl = document.getElementById('snakeHighScore');
   const snakeGameOverOverlay = document.getElementById('snakeGameOverOverlay');
   const snakeRoastText = document.getElementById('snakeRoastText');
+  const snakeCommentary = document.getElementById('snakeCommentary');
 
   let ctx = null;
   if (snakeCanvas) ctx = snakeCanvas.getContext('2d');
@@ -360,12 +362,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const tileCount = 16; // 16x16 = 320x320
   let snake = [];
   let food = { x: 5, y: 5 };
-  let velocity = { x: 0, y: 0 };
-  let nextVelocity = { x: 0, y: 0 };
+  let currentDir = { x: 0, y: -1 };
+  let inputQueue = [];
   let snakeScore = 0;
   let snakeHighScore = parseInt(localStorage.getItem('hamzagpt_snake_highscore') || '0', 10);
   let gameInterval = null;
   let isGameRunning = false;
+  let isGamePaused = false;
+  let particles = [];
+  let applePulse = 0;
 
   if (snakeHighScoreEl) snakeHighScoreEl.textContent = snakeHighScore;
 
@@ -377,22 +382,51 @@ document.addEventListener('DOMContentLoaded', () => {
     (s) => `Score: ${s}. Go back to asking AI questions, gaming is clearly not your calling.`
   ];
 
+  const COMMENTARY_MILESTONES = [
+    { score: 0, text: '"Don\'t embarrass yourself."' },
+    { score: 3, text: '"Okay, you have functioning fingers."' },
+    { score: 6, text: '"Not bad for someone who talks to AI."' },
+    { score: 10, text: '"Look at you go! Silicon Valley prodigy!"' },
+    { score: 15, text: '"Certified Snake Maestro 🐍"' },
+    { score: 20, text: '"TOUCH GRASS IMMEDIATELY!"' }
+  ];
+
+  function updateCommentary(score) {
+    if (!snakeCommentary) return;
+    for (let i = COMMENTARY_MILESTONES.length - 1; i >= 0; i--) {
+      if (score >= COMMENTARY_MILESTONES[i].score) {
+        snakeCommentary.textContent = COMMENTARY_MILESTONES[i].text;
+        break;
+      }
+    }
+  }
+
   function startSnakeGame() {
     snake = [
       { x: 8, y: 8 },
       { x: 8, y: 9 },
       { x: 8, y: 10 }
     ];
-    velocity = { x: 0, y: -1 };
-    nextVelocity = { x: 0, y: -1 };
+    currentDir = { x: 0, y: -1 };
+    inputQueue = [];
+    particles = [];
     snakeScore = 0;
     snakeScoreEl.textContent = snakeScore;
+    updateCommentary(0);
     snakeGameOverOverlay.style.display = 'none';
-    spawnFood();
+    if (snakePauseBtn) snakePauseBtn.textContent = "⏸️ Pause";
+    isGamePaused = false;
     isGameRunning = true;
+    spawnFood();
 
+    resetGameSpeed();
+  }
+
+  function resetGameSpeed() {
     if (gameInterval) clearInterval(gameInterval);
-    gameInterval = setInterval(gameLoop, 120);
+    // Smooth speed scaling: starts at 115ms, gets faster up to 75ms
+    const speed = Math.max(75, 115 - Math.floor(snakeScore * 2));
+    gameInterval = setInterval(gameLoop, speed);
   }
 
   function spawnFood() {
@@ -400,7 +434,6 @@ document.addEventListener('DOMContentLoaded', () => {
       x: Math.floor(Math.random() * tileCount),
       y: Math.floor(Math.random() * tileCount)
     };
-    // Ensure food doesn't spawn on snake body
     for (const segment of snake) {
       if (segment.x === food.x && segment.y === food.y) {
         spawnFood();
@@ -409,22 +442,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function gameLoop() {
+  function togglePause() {
     if (!isGameRunning) return;
+    isGamePaused = !isGamePaused;
+    if (snakePauseBtn) {
+      snakePauseBtn.textContent = isGamePaused ? "▶️ Resume" : "⏸️ Pause";
+    }
+    if (snakeCommentary) {
+      snakeCommentary.textContent = isGamePaused ? '"Game paused. Catch your breath."' : '"Back to slithering!"';
+    }
+    synth.playPop();
+  }
 
-    // Apply queued direction
-    velocity = { ...nextVelocity };
+  function gameLoop() {
+    if (!isGameRunning || isGamePaused) return;
 
-    // Move snake head
-    const head = { x: snake[0].x + velocity.x, y: snake[0].y + velocity.y };
+    // Process queued input
+    if (inputQueue.length > 0) {
+      const nextDir = inputQueue.shift();
+      // Ensure no 180-degree instant reversal
+      if (nextDir.x !== -currentDir.x && nextDir.y !== -currentDir.y) {
+        currentDir = nextDir;
+      }
+    }
 
-    // Check Wall Collision
+    // Move snake
+    const head = { x: snake[0].x + currentDir.x, y: snake[0].y + currentDir.y };
+
+    // Wall collision
     if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
       handleGameOver();
       return;
     }
 
-    // Check Self Collision
+    // Self collision
     for (const segment of snake) {
       if (segment.x === head.x && segment.y === head.y) {
         handleGameOver();
@@ -434,17 +485,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     snake.unshift(head);
 
-    // Check Food Collision
+    // Food collision
     if (head.x === food.x && head.y === food.y) {
       snakeScore += 1;
       snakeScoreEl.textContent = snakeScore;
+      updateCommentary(snakeScore);
+
       if (snakeScore > snakeHighScore) {
         snakeHighScore = snakeScore;
         snakeHighScoreEl.textContent = snakeHighScore;
         localStorage.setItem('hamzagpt_snake_highscore', snakeHighScore);
       }
+
+      // Spawn burst particles
+      createParticles(food.x * gridSize + gridSize / 2, food.y * gridSize + gridSize / 2);
       synth.playPop();
       spawnFood();
+      resetGameSpeed();
     } else {
       snake.pop();
     }
@@ -452,15 +509,31 @@ document.addEventListener('DOMContentLoaded', () => {
     drawGame();
   }
 
+  function createParticles(x, y) {
+    for (let i = 0; i < 8; i++) {
+      const angle = (Math.PI * 2 * i) / 8;
+      const speed = Math.random() * 2 + 1.5;
+      particles.push({
+        x: x,
+        y: y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        life: 1.0,
+        color: i % 2 === 0 ? "#ef4444" : "#f59e0b"
+      });
+    }
+  }
+
   function drawGame() {
     if (!ctx) return;
+    applePulse += 0.08;
 
-    // Clear board (crisp white/off-white)
-    ctx.fillStyle = "#f8fafc";
+    // Clear board with subtle warm canvas
+    ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
 
     // Subtle Grid pattern
-    ctx.strokeStyle = "#edf2f7";
+    ctx.strokeStyle = "#f1f5f9";
     ctx.lineWidth = 1;
     for (let i = 0; i < tileCount; i++) {
       ctx.beginPath();
@@ -474,28 +547,115 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
     }
 
-    // Draw Food (Apple red with slight radius)
-    ctx.fillStyle = "#ef4444";
+    // Update and draw burst particles
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= 0.07;
+      if (p.life <= 0) {
+        particles.splice(i, 1);
+        continue;
+      }
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.life;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1.0;
+    }
+
+    // Draw Glowing Juicy Apple
+    const foodCenterX = food.x * gridSize + gridSize / 2;
+    const foodCenterY = food.y * gridSize + gridSize / 2;
+    const pulseRadius = (gridSize / 2 - 2) + Math.sin(applePulse) * 1.2;
+
+    // Apple glow
+    ctx.fillStyle = "rgba(239, 68, 68, 0.15)";
     ctx.beginPath();
-    ctx.arc(
-      food.x * gridSize + gridSize / 2,
-      food.y * gridSize + gridSize / 2,
-      gridSize / 2 - 2,
-      0,
-      Math.PI * 2
-    );
+    ctx.arc(foodCenterX, foodCenterY, pulseRadius + 3, 0, Math.PI * 2);
     ctx.fill();
 
-    // Draw Snake (Solid sleek black)
+    // Apple body
+    ctx.fillStyle = "#ef4444";
+    ctx.beginPath();
+    ctx.arc(foodCenterX, foodCenterY + 1, pulseRadius, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Apple stem & leaf
+    ctx.fillStyle = "#16a34a";
+    ctx.beginPath();
+    ctx.ellipse(foodCenterX + 2, foodCenterY - 6, 2, 4, Math.PI / 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Draw Snake with Eyes
     snake.forEach((seg, index) => {
-      ctx.fillStyle = index === 0 ? "#000000" : "#334155";
-      ctx.fillRect(
-        seg.x * gridSize + 1,
-        seg.y * gridSize + 1,
-        gridSize - 2,
-        gridSize - 2
-      );
+      const x = seg.x * gridSize;
+      const y = seg.y * gridSize;
+
+      if (index === 0) {
+        // Snake Head (Deep rich black)
+        ctx.fillStyle = "#000000";
+        roundRect(ctx, x + 1, y + 1, gridSize - 2, gridSize - 2, 6);
+        ctx.fill();
+
+        // Expressive Eyes that look in movement direction
+        drawSnakeEyes(ctx, x, y, currentDir);
+      } else {
+        // Body (Smooth sleek dark slate)
+        ctx.fillStyle = index % 2 === 0 ? "#1e293b" : "#334155";
+        roundRect(ctx, x + 2, y + 2, gridSize - 4, gridSize - 4, 4);
+        ctx.fill();
+      }
     });
+  }
+
+  function roundRect(c, x, y, width, height, radius) {
+    c.beginPath();
+    c.moveTo(x + radius, y);
+    c.lineTo(x + width - radius, y);
+    c.quadraticCurveTo(x + width, y, x + width, y + radius);
+    c.lineTo(x + width, y + height - radius);
+    c.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    c.lineTo(x + radius, y + height);
+    c.quadraticCurveTo(x, y + height, x, y + height - radius);
+    c.lineTo(x, y + radius);
+    c.quadraticCurveTo(x, y, x + radius, y);
+    c.closePath();
+  }
+
+  function drawSnakeEyes(c, headX, headY, dir) {
+    const eyeSize = 3;
+    const pupilSize = 1.5;
+    let eye1X, eye1Y, eye2X, eye2Y;
+
+    if (dir.y === -1) { // Up
+      eye1X = headX + 5; eye1Y = headY + 5;
+      eye2X = headX + 13; eye2Y = headY + 5;
+    } else if (dir.y === 1) { // Down
+      eye1X = headX + 5; eye1Y = headY + 13;
+      eye2X = headX + 13; eye2Y = headY + 13;
+    } else if (dir.x === -1) { // Left
+      eye1X = headX + 5; eye1Y = headY + 5;
+      eye2X = headX + 5; eye2Y = headY + 13;
+    } else { // Right
+      eye1X = headX + 13; eye1Y = headY + 5;
+      eye2X = headX + 13; eye2Y = headY + 13;
+    }
+
+    // White eye sclera
+    c.fillStyle = "#ffffff";
+    c.beginPath();
+    c.arc(eye1X, eye1Y, eyeSize, 0, Math.PI * 2);
+    c.arc(eye2X, eye2Y, eyeSize, 0, Math.PI * 2);
+    c.fill();
+
+    // Black pupil
+    c.fillStyle = "#000000";
+    c.beginPath();
+    c.arc(eye1X + dir.x * 0.8, eye1Y + dir.y * 0.8, pupilSize, 0, Math.PI * 2);
+    c.arc(eye2X + dir.x * 0.8, eye2Y + dir.y * 0.8, pupilSize, 0, Math.PI * 2);
+    c.fill();
   }
 
   function handleGameOver() {
@@ -508,29 +668,103 @@ document.addEventListener('DOMContentLoaded', () => {
     snakeGameOverOverlay.style.display = 'flex';
   }
 
-  // Direction handler
-  function changeDirection(dir) {
+  // Smooth Direction change with input buffering
+  function queueDirection(newDir) {
     if (!isGameRunning) return;
-    if (dir === 'up' && velocity.y !== 1) nextVelocity = { x: 0, y: -1 };
-    else if (dir === 'down' && velocity.y !== -1) nextVelocity = { x: 0, y: 1 };
-    else if (dir === 'left' && velocity.x !== 1) nextVelocity = { x: -1, y: 0 };
-    else if (dir === 'right' && velocity.x !== -1) nextVelocity = { x: 1, y: 0 };
+    if (isGamePaused) togglePause(); // Unpause on move
+
+    // Check against last queued or current direction
+    const lastDir = inputQueue.length > 0 ? inputQueue[inputQueue.length - 1] : currentDir;
+
+    // Disallow 180-degree reversal
+    if (newDir.x === -lastDir.x && newDir.y === -lastDir.y) return;
+    if (newDir.x === lastDir.x && newDir.y === lastDir.y) return;
+
+    if (inputQueue.length < 2) {
+      inputQueue.push(newDir);
+    }
   }
 
+  // Keyboard controls with Spacebar pause
   window.addEventListener('keydown', (e) => {
-    if (!isGameRunning || snakeModal.style.display !== 'flex') return;
-    if (['ArrowUp', 'KeyW'].includes(e.code)) { e.preventDefault(); changeDirection('up'); }
-    else if (['ArrowDown', 'KeyS'].includes(e.code)) { e.preventDefault(); changeDirection('down'); }
-    else if (['ArrowLeft', 'KeyA'].includes(e.code)) { e.preventDefault(); changeDirection('left'); }
-    else if (['ArrowRight', 'KeyD'].includes(e.code)) { e.preventDefault(); changeDirection('right'); }
+    if (snakeModal.style.display !== 'flex') return;
+
+    if (e.code === 'Space') {
+      e.preventDefault();
+      togglePause();
+      return;
+    }
+
+    if (['ArrowUp', 'KeyW'].includes(e.code)) {
+      e.preventDefault();
+      queueDirection({ x: 0, y: -1 });
+    } else if (['ArrowDown', 'KeyS'].includes(e.code)) {
+      e.preventDefault();
+      queueDirection({ x: 0, y: 1 });
+    } else if (['ArrowLeft', 'KeyA'].includes(e.code)) {
+      e.preventDefault();
+      queueDirection({ x: -1, y: 0 });
+    } else if (['ArrowRight', 'KeyD'].includes(e.code)) {
+      e.preventDefault();
+      queueDirection({ x: 1, y: 0 });
+    }
   });
 
-  // Mobile D-pad button clicks
+  // Touch & Click D-pad with zero lag
   document.querySelectorAll('.dpad-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      changeDirection(btn.dataset.dir);
-    });
+    const handleDir = (e) => {
+      e.preventDefault();
+      const dirMap = {
+        up: { x: 0, y: -1 },
+        down: { x: 0, y: 1 },
+        left: { x: -1, y: 0 },
+        right: { x: 1, y: 0 }
+      };
+      const d = dirMap[btn.dataset.dir];
+      if (d) queueDirection(d);
+      btn.classList.add('active');
+      setTimeout(() => btn.classList.remove('active'), 120);
+    };
+
+    btn.addEventListener('touchstart', handleDir, { passive: false });
+    btn.addEventListener('mousedown', handleDir);
   });
+
+  // Canvas Swipe gestures for mobile
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  if (snakeCanvas) {
+    snakeCanvas.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 0) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    snakeCanvas.addEventListener('touchend', (e) => {
+      if (e.changedTouches.length === 0) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      const absDx = Math.abs(dx);
+      const absDy = Math.abs(dy);
+
+      if (Math.max(absDx, absDy) > 20) {
+        if (absDx > absDy) {
+          queueDirection(dx > 0 ? { x: 1, y: 0 } : { x: -1, y: 0 });
+        } else {
+          queueDirection(dy > 0 ? { x: 0, y: 1 } : { x: 0, y: -1 });
+        }
+      }
+    }, { passive: true });
+  }
+
+  // Pause button listener
+  if (snakePauseBtn) {
+    snakePauseBtn.addEventListener('click', () => {
+      togglePause();
+    });
+  }
 
   // Open & Close Modal
   if (snakeGameBtn && snakeModal) {

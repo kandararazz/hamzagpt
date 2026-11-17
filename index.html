@@ -121,9 +121,12 @@
 
       <div class="modal-body snake-modal-body">
         <div class="snake-stats-bar">
-          <div class="snake-score-box">Score: <strong id="snakeScore">0</strong></div>
-          <div class="snake-score-box">Best: <strong id="snakeHighScore">0</strong></div>
+          <div class="snake-score-box">🍎 Score: <strong id="snakeScore">0</strong></div>
+          <button id="snakePauseBtn" class="snake-pause-btn" title="Pause Game">⏸️ Pause</button>
+          <div class="snake-score-box">🏆 Best: <strong id="snakeHighScore">0</strong></div>
         </div>
+
+        <div id="snakeCommentary" class="snake-commentary">"Don't embarrass yourself."</div>
 
         <div class="canvas-wrap">
           <canvas id="snakeCanvas" width="320" height="320"></canvas>
@@ -136,17 +139,17 @@
           </div>
         </div>
 
-        <!-- Touch / Onscreen Controls for Mobile -->
+        <!-- Ergonomic Touch / Onscreen Controls for Mobile -->
         <div class="mobile-dpad">
-          <button class="dpad-btn up" data-dir="up">▲</button>
+          <button class="dpad-btn up" data-dir="up" aria-label="Up">▲</button>
           <div class="dpad-row">
-            <button class="dpad-btn left" data-dir="left">◀</button>
-            <button class="dpad-btn down" data-dir="down">▼</button>
-            <button class="dpad-btn right" data-dir="right">▶</button>
+            <button class="dpad-btn left" data-dir="left" aria-label="Left">◀</button>
+            <button class="dpad-btn down" data-dir="down" aria-label="Down">▼</button>
+            <button class="dpad-btn right" data-dir="right" aria-label="Right">▶</button>
           </div>
         </div>
 
-        <p class="controls-hint">Use <strong>Arrow Keys</strong> or <strong>W A S D</strong> to slither.</p>
+        <p class="controls-hint">⌨️ <strong>Arrow Keys</strong> / <strong>WASD</strong> • <strong>Space</strong> to Pause • Swipe on canvas</p>
       </div>
     </div>
   </div>

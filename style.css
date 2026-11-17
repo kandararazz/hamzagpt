@@ -718,33 +718,66 @@ textarea#userInput::placeholder {
 .snake-stats-bar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   max-width: 320px;
+  gap: 8px;
 }
 
 .snake-score-box {
   background: #f1f5f9;
   border: 1px solid var(--border-light);
-  padding: 6px 14px;
+  padding: 6px 12px;
   border-radius: var(--radius-full);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .snake-score-box strong {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #000000;
+}
+
+.snake-pause-btn {
+  background: #ffffff;
+  border: 1.5px solid var(--border-medium);
+  color: #000000;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.snake-pause-btn:hover {
+  background: #f1f5f9;
+  border-color: #000000;
+}
+
+.snake-commentary {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #64748b;
+  font-style: italic;
+  text-align: center;
+  min-height: 18px;
+  transition: color 0.3s ease;
 }
 
 .canvas-wrap {
   position: relative;
   width: 320px;
   height: 320px;
-  border: 2px solid #000000;
+  border: 2.5px solid #000000;
   border-radius: var(--radius-md);
   overflow: hidden;
-  background: #fafafa;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  touch-action: none;
 }
 
 canvas#snakeCanvas {
@@ -754,61 +787,63 @@ canvas#snakeCanvas {
 .game-over-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.88);
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(4px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   color: #ffffff;
-  padding: 20px;
-  gap: 10px;
+  padding: 24px 20px;
+  gap: 12px;
   animation: fadeIn 0.18s ease;
 }
 
 .skull-icon {
-  font-size: 2.2rem;
+  font-size: 2.4rem;
 }
 
 .game-over-overlay h4 {
   font-family: var(--font-display);
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 800;
   color: #ef4444;
 }
 
 .game-over-overlay p {
-  font-size: 0.85rem;
-  color: #cbd5e1;
+  font-size: 0.88rem;
+  color: #e2e8f0;
   font-style: italic;
   max-width: 260px;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .primary-btn {
   background: #ffffff;
   color: #000000;
   border: none;
-  padding: 9px 18px;
+  padding: 10px 22px;
   border-radius: var(--radius-full);
   font-weight: 800;
-  font-size: 0.84rem;
+  font-size: 0.88rem;
   cursor: pointer;
   transition: all var(--transition);
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2);
 }
 
 .primary-btn:hover {
-  background: #e2e8f0;
-  transform: scale(1.04);
+  background: #f1f5f9;
+  transform: scale(1.05);
 }
 
-/* On-screen / Mobile Controls */
+/* Ergonomic Modern D-Pad */
 .mobile-dpad {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .dpad-row {
@@ -817,31 +852,43 @@ canvas#snakeCanvas {
 }
 
 .dpad-btn {
-  width: 44px;
-  height: 40px;
-  background: #f1f5f9;
-  border: 1px solid var(--border-medium);
+  width: 52px;
+  height: 44px;
+  background: #ffffff;
+  border: 1.5px solid var(--border-medium);
   border-radius: var(--radius-sm);
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-weight: 800;
+  color: #000000;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;
-  transition: all var(--transition);
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  transition: all 0.1s ease;
 }
 
-.dpad-btn:active {
+.dpad-btn:hover {
+  background: #f8fafc;
+  border-color: #000000;
+}
+
+.dpad-btn:active, .dpad-btn.active {
   background: #000000;
   color: #ffffff;
+  border-color: #000000;
   transform: scale(0.92);
+  box-shadow: none;
 }
 
 .controls-hint {
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   text-align: center;
+  margin-top: 2px;
 }
 
 /* Responsive */
