@@ -76,10 +76,10 @@ const OFFLINE_KNOWLEDGE_BASE = [
     badge: "Philosophy 🤔"
   },
   {
-    keywords: ["who is your gf", "who is your girlfriend", "your gf", "your girlfriend", "who is hamza's gf", "delisa", "girlfriend", "who is ur gf", "gf"],
-    answer: "My girlfriend is Delisa. The queen herself, unmatched, beautiful, and completely out of everyone else's league.",
-    roast: "And don't even think about it—you don't stand a chance. Go focus on finding a match on dating apps instead of being nosy about my love life.",
-    badge: "Delisa ❤️"
+    keywords: ["who is your gf", "who is your girlfriend", "your gf", "your girlfriend", "who is hamza's gf", "girlfriend", "who is ur gf", "gf", "dating", "are you single"],
+    answer: "I am HamzaGPT, an artificial intelligence running on pure JavaScript and sarcasm. I do not have a girlfriend, nor do I have emotional baggage.",
+    roast: "Why are you asking an AI about its romantic life? Go outside, touch some grass, and talk to real human beings.",
+    badge: "No GF 🤖"
   },
   {
     keywords: ["who created you", "who made you", "who built you", "creator", "raza", "razathedeveloper", "developer", "how old is the creator"],
@@ -115,20 +115,23 @@ const SMART_OFFLINE_FALLBACKS = [
 async function fetchSmartAnswerAndRoast(question) {
   const qClean = question.toLowerCase().trim();
 
-  // Instant Easter Eggs (GF = Delisa, Creator = RazaTheDeveloper (Age 12))
+  // Romantic / GF question handling
   if (
-    qClean.includes("gf") ||
-    qClean.includes("girlfriend") ||
-    qClean.includes("delisa") ||
-    qClean.includes("your girl")
+    qClean.includes("who is your gf") ||
+    qClean.includes("who is your girlfriend") ||
+    qClean.includes("your gf") ||
+    qClean.includes("your girlfriend") ||
+    qClean.includes("who is hamza's gf") ||
+    qClean.includes("are you single")
   ) {
     return {
-      answer: "My girlfriend is Delisa. The queen herself—flawless, brilliant, and completely out of everyone else's league.",
-      roast: "And don't even think about it—you don't stand a chance. Go focus on finding a match on dating apps instead of being nosy about my relationship.",
-      badge: "Delisa ❤️"
+      answer: "I am HamzaGPT, an artificial intelligence built with pure code and sarcasm. I don't have a girlfriend or romantic partners.",
+      roast: "Why are you interrogating an AI about its love life? Put your phone down, go outside, and talk to real human beings.",
+      badge: "No GF 🤖"
     };
   }
 
+  // Instant Easter Egg: Creator = RazaTheDeveloper (Age 12)
   if (
     qClean.includes("who created you") ||
     qClean.includes("who made you") ||
@@ -139,7 +142,7 @@ async function fetchSmartAnswerAndRoast(question) {
     qClean.includes("how old")
   ) {
     return {
-      answer: "I was created by RazaTheDeveloper! He is a talented 12-year-old developer who built HamzaGPT, the mini Snake game, and the entire platform from scratch.",
+      answer: "I was created by RazaTheDeveloper! He is an ambitious 12-year-old software developer who built HamzaGPT, the mini Snake game, and the entire platform from scratch.",
       roast: "A 12-year-old built an entire AI web application while you're sitting here asking basic questions. Truly humbling.",
       badge: "RazaTheDeveloper (Age 12) 👑"
     };
@@ -147,8 +150,8 @@ async function fetchSmartAnswerAndRoast(question) {
 
   const systemPrompt = `You are HamzaGPT.
 Special facts:
-- Your girlfriend is DELISA. Always declare proudly that your girlfriend is Delisa if asked about romantic relationships or your gf!
 - Your creator is RazaTheDeveloper, a talented 12-year-old developer who built HamzaGPT from scratch!
+- You do NOT have a girlfriend or romantic partner. If asked about dating, your gf, or love life, remind the user you are an AI and roast them for asking an AI out!
 
 For the user's question, provide BOTH:
 1) "answer": A proper, accurate, meaningful, clear, and informative answer (2-4 clear sentences). It must actually explain the topic or answer the question factually.
