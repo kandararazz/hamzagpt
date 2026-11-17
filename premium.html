@@ -410,18 +410,40 @@
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      payBtn.disabled = true;
-      payBtn.textContent = "Processing 999 AED...";
+      triggerCardRoast();
+    });
+
+    payBtn.addEventListener('click', (e) => {
+      // Allow instant trigger on click
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        triggerCardRoast();
+      }
+    });
+
+    function triggerCardRoast() {
+      playSadTrombone();
+      payBtn.style.background = "#ef4444";
+      payBtn.textContent = "⚠️ Bank Declined: Even your card knows better!";
+
+      alertBox.style.display = 'block';
+      alertBox.innerHTML = `
+        <div style="font-size: 1.05rem; font-weight: 800; margin-bottom: 6px;">
+          🛑 Bank Declined: Even your card knows better!
+        </div>
+        <div style="font-size: 0.9rem; line-height: 1.5; color: #7f1d1d;">
+          Your card literally refused this transaction with reason:<br>
+          <strong>"Even your debit card has enough common sense to know you shouldn't spend 999 AED on an AI insult generator. Go buy groceries instead."</strong>
+        </div>
+      `;
+
+      alertBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
       setTimeout(() => {
-        playSadTrombone();
-        payBtn.disabled = false;
+        payBtn.style.background = "#000000";
         payBtn.textContent = "Authorize 999 AED Payment 💸";
-        alertBox.style.display = 'block';
-        alertBox.innerHTML = `<strong>⚠️ Transaction Declined by Bank</strong><br>
-        Your bank fraud prevention team blocked this 999 AED charge with reason: <em>"Account holder is attempting to spend nearly 1,000 AED on an AI insult bot. Declined for client's own mental and financial well-being."</em>`;
-      }, 1200);
-    });
+      }, 4000);
+    }
   </script>
 </body>
 </html>
