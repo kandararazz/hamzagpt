@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buy HamzaGPT Premium | 999 AED</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/jpeg" href="logo.jpg">
+  <style>
+    /* Dedicated Premium Page Specifics */
+    .premium-page-container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      background: #ffffff;
+    }
+
+    .premium-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-light);
+      transition: all var(--transition);
+    }
+
+    .back-link:hover {
+      background: #f1f5f9;
+      border-color: #000000;
+      transform: translateX(-2px);
+    }
+
+    .premium-hero {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .premium-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 14px;
+      border-radius: var(--radius-full);
+      margin-bottom: 12px;
+    }
+
+    .premium-hero h1 {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      color: #000000;
+      margin-bottom: 10px;
+    }
+
+    .premium-hero p {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    /* Comparison Grid */
+    .plans-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .plan-card {
+      border: 1.5px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .plan-card.featured {
+      border-color: #000000;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      background: #fcfcfd;
+    }
+
+    .featured-tag {
+      position: absolute;
+      top: -12px;
+      right: 24px;
+      background: #000000;
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 12px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .plan-name {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .plan-price {
+      font-family: var(--font-display);
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: #000000;
+      margin-bottom: 4px;
+    }
+
+    .plan-period {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .plan-perks {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex: 1;
+    }
+
+    .plan-perks li {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.4;
+    }
+
+    /* Checkout Card */
+    .checkout-section {
+      background: #f9fafb;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      max-width: 580px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .checkout-section h3 {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .checkout-section p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .checkout-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .checkout-form label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .checkout-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      font-size: 0.92rem;
+      font-family: inherit;
+      outline: none;
+      background: #ffffff;
+      transition: border var(--transition);
+    }
+
+    .checkout-input:focus {
+      border-color: #000000;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .submit-pay-btn {
+      background: #000000;
+      color: #ffffff;
+      border: none;
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all var(--transition);
+      margin-top: 8px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    }
+
+    .submit-pay-btn:hover {
+      background: #1e293b;
+      transform: translateY(-2px);
+    }
+
+    .checkout-alert {
+      margin-top: 16px;
+      padding: 14px;
+      background: #fef2f2;
+      border: 1.5px solid #fecaca;
+      border-radius: var(--radius-sm);
+      color: #991b1b;
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: none;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @media (max-width: 640px) {
+      .plans-grid {
+        grid-template-columns: 1fr;
+      }
+      .premium-hero h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body class="theme-white">
+
+  <div class="premium-page-container">
+    
+    <!-- Top Nav with Back Link -->
+    <header class="premium-nav">
+      <div class="brand">
+        <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 12px;">
+          <img src="logo.jpg" alt="HamzaGPT Logo" class="brand-logo" style="height: 72px;">
+          <h1 class="brand-title">HamzaGPT</h1>
+        </a>
+      </div>
+
+      <a href="index.html" class="back-link">
+        ← Back to Chat
+      </a>
+    </header>
+
+    <!-- Hero Title -->
+    <section class="premium-hero">
+      <span class="premium-hero-badge">👑 VIP Sarcasm Membership</span>
+      <h1>HamzaGPT Premium</h1>
+      <p>The world's most overpriced AI insult experience. Because why get roasted for free when you can pay 999 AED for it?</p>
+    </section>
+
+    <!-- Plan Comparison -->
+    <section class="plans-grid">
+      
+      <!-- Free Pleb Tier -->
+      <div class="plan-card">
+        <h3 class="plan-name">Free Tier</h3>
+        <div class="plan-price">0 <span style="font-size: 1rem; color: #64748b;">AED</span></div>
+        <div class="plan-period">Forever free for commoners</div>
+        <ul class="plan-perks">
+          <li>✔️ Standard quality roasts</li>
+          <li>✔️ Basic grammar critique</li>
+          <li>✔️ 10% facts and 90% attitude</li>
+          <li>✔️ Sarcastic speech read-aloud</li>
+          <li>❌ 0 VIP bragging rights</li>
+        </ul>
+        <a href="index.html" class="back-link" style="text-align: center; justify-content: center;">
+          Stick to Free Pleb Mode
+        </a>
+      </div>
+
+      <!-- VIP Premium Tier -->
+      <div class="plan-card featured">
+        <span class="featured-tag">Most Questionable Choice</span>
+        <h3 class="plan-name">HamzaGPT Premium</h3>
+        <div class="plan-price">999 <span style="font-size: 1rem; color: #64748b;">AED</span></div>
+        <div class="plan-period">per month • zero refunds • instant regret</div>
+        <ul class="plan-perks">
+          <li>⚡ <strong>10x Faster Emotional Damage</strong>: Insulted before you finish typing</li>
+          <li>💅 <strong>4K Ultra-HD Sarcasm</strong>: High-fidelity verbal destruction</li>
+          <li>🧠 <strong>Exclusive Common Sense Priority</strong>: Basic logic others lack</li>
+          <li>💸 <strong>Official Digital Receipt</strong>: Proving you have 999 AED to waste</li>
+          <li>👑 <strong>Golden VIP Stamp</strong> on every roasted message bubble</li>
+        </ul>
+      </div>
+
+    </section>
+
+    <!-- Checkout Card -->
+    <section class="checkout-section">
+      <h3>Complete Checkout (999 AED)</h3>
+      <p>Enter your payment details (or don't, we strongly advise against this).</p>
+
+      <form id="checkoutForm" class="checkout-form">
+        <div>
+          <label for="cardName">Cardholder Name:</label>
+          <input type="text" id="cardName" class="checkout-input" placeholder="Bro Broson" required>
+        </div>
+
+        <div>
+          <label for="cardNumber">Card Number:</label>
+          <input type="text" id="cardNumber" class="checkout-input" placeholder="4000 1234 5678 9010" maxlength="19" required>
+        </div>
+
+        <div class="form-row-2">
+          <div>
+            <label for="cardExp">Expiry Date:</label>
+            <input type="text" id="cardExp" class="checkout-input" placeholder="MM/YY" maxlength="5" required>
+          </div>
+          <div>
+            <label for="cardCvc">CVC / Security Code:</label>
+            <input type="password" id="cardCvc" class="checkout-input" placeholder="123" maxlength="4" required>
+          </div>
+        </div>
+
+        <button type="submit" id="payBtn" class="submit-pay-btn">
+          Authorize 999 AED Payment 💸
+        </button>
+
+        <div id="checkoutAlert" class="checkout-alert"></div>
+      </form>
+    </section>
+
+  </div>
+
+  <script>
+    // Web Audio Sad Trombone on Failed Payment
+    function playSadTrombone() {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const notes = [
+        { f: 293.66, d: 0.28 },
+        { f: 277.18, d: 0.28 },
+        { f: 261.63, d: 0.28 },
+        { f: 246.94, d: 0.65, slide: 200 }
+      ];
+      let start = ctx.currentTime;
+      notes.forEach(n => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(n.f, start);
+        if (n.slide) osc.frequency.exponentialRampToValueAtTime(n.slide, start + n.d);
+        gain.gain.setValueAtTime(0.2, start);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + n.d);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(start);
+        osc.stop(start + n.d);
+        start += n.d + 0.04;
+      });
+    }
+
+    const form = document.getElementById('checkoutForm');
+    const alertBox = document.getElementById('checkoutAlert');
+    const payBtn = document.getElementById('payBtn');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      payBtn.disabled = true;
+      payBtn.textContent = "Processing 999 AED...";
+
+      setTimeout(() => {
+        playSadTrombone();
+        payBtn.disabled = false;
+        payBtn.textContent = "Authorize 999 AED Payment 💸";
+        alertBox.style.display = 'block';
+        alertBox.innerHTML = `<strong>⚠️ Transaction Declined by Bank</strong><br>
+        Your bank fraud prevention team blocked this 999 AED charge with reason: <em>"Account holder is attempting to spend nearly 1,000 AED on an AI insult bot. Declined for client's own mental and financial well-being."</em>`;
+      }, 1200);
+    });
+  </script>
+</body>
+</html>

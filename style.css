@@ -87,9 +87,9 @@ body {
 }
 
 .splash-logo {
-  width: 210px;
+  width: 240px;
   height: auto;
-  max-height: 140px;
+  max-height: 160px;
   object-fit: contain;
   animation: splashPulse 2s ease-in-out infinite;
 }
@@ -231,16 +231,21 @@ body {
 }
 
 .brand-logo {
-  height: 52px;
+  height: 72px;
   width: auto;
-  max-width: 170px;
+  max-width: 240px;
   object-fit: contain;
   display: block;
+  transition: transform var(--transition);
+}
+
+.brand-logo:hover {
+  transform: scale(1.03);
 }
 
 .brand-title {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.65rem;
   font-weight: 800;
   color: #000000;
   letter-spacing: -0.6px;
@@ -298,6 +303,47 @@ body {
   border-radius: var(--radius-full);
   font-size: 0.68rem;
   font-weight: 800;
+}
+
+.buy-premium-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transition);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.buy-premium-nav-btn:hover {
+  background: #1e293b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+}
+
+.buy-premium-nav-btn .premium-sparkle {
+  font-size: 1rem;
+}
+
+.buy-premium-nav-btn .premium-btn-label {
+  font-weight: 800;
+}
+
+.buy-premium-nav-btn .premium-price-tag {
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
 }
 
 .premium-upgrade-btn {
@@ -371,7 +417,7 @@ body {
 }
 
 .welcome-logo {
-  height: 85px;
+  height: 115px;
   width: auto;
   object-fit: contain;
 }
