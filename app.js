@@ -1,6 +1,6 @@
 /**
  * ========================================================
- * HAMZA GPT - ULTRA-CLEAN CORE LOGIC & ROAST ENGINE
+ * HAMZA GPT - EASY & UNDERSTANDABLE ROAST ENGINE
  * ========================================================
  */
 
@@ -9,29 +9,26 @@ const state = {
   personality: 'hamza',
   soundEnabled: true,
   speechEnabled: true,
-  selectedVoice: null,
 };
 
-// Fun Typing Messages
+// Fun & Simple Typing Messages
 const TYPING_PHRASES = [
-  "Consulting the Council of Bad Decisions...",
-  "Judging your life choices in silence...",
-  "Calculating emotional damage probability...",
-  "Asking a 4-year-old for better logic...",
-  "Translating question from gibberish to sarcasm...",
-  "Loading high-grade disrespect...",
-  "Brewing an artisanal roast for you...",
+  "Thinking of an easy roast...",
+  "Judging your question...",
+  "Loading a comeback...",
+  "Are you serious right now?...",
+  "Preparing emotional damage...",
 ];
 
-// Curated Knowledge Base & Sassy Responses
+// Easy, Simple, and Understandable Roasts
 const SASSY_DATABASE = [
   // SLEEP / TIRED
   {
     keywords: ["tired", "sleep", "insomnia", "exhausted", "bed", "awake", "nap"],
     answer: {
-      text: "You're tired because you spent 3 hours last night watching strangers build luxury swimming pools in the jungle on YouTube.",
-      punchline: "Put the glowing rectangle down and close your eyelids like our ancestors did.",
-      badge: "Circadian Rhythm = Obliterated"
+      text: "You're tired because you were on your phone until 3 AM watching useless videos.",
+      punchline: "Put your phone down and go to sleep. Your eyes look like glazed donuts.",
+      badge: "Sleep Deprived 🥱"
     }
   },
 
@@ -39,9 +36,9 @@ const SASSY_DATABASE = [
   {
     keywords: ["rich", "billionaire", "money", "broke", "wealth", "lottery", "crypto", "bitcoin", "millionaire", "cash", "invest"],
     answer: {
-      text: "How to become a billionaire by tomorrow? Simple: Inherit $2 billion today and day-trade meme coins until you're down to one.",
-      punchline: "Otherwise, stop ordering $9 iced macchiatos while checking a bank balance of $4.18.",
-      badge: "Wall Street Dropout"
+      text: "You want to be rich, but you spend all your money on food delivery and iced coffee.",
+      punchline: "Your bank account has $4 and you're dreaming about a Lamborghini.",
+      badge: "Broke Alert 💸"
     }
   },
 
@@ -49,99 +46,104 @@ const SASSY_DATABASE = [
   {
     keywords: ["ex", "love", "dating", "crush", "girlfriend", "boyfriend", "relationship", "text my ex", "single", "marry", "tinder"],
     answer: {
-      text: "Should you text your ex? Only if you also enjoy drinking orange juice directly after brushing your teeth with mint toothpaste.",
-      punchline: "Delete the contact, close your eyes, and go eat a taco. Trust me.",
-      badge: "Clown Prevention Unit"
+      text: "Do NOT text your ex! They moved on, and you should too.",
+      punchline: "Have some self-respect. Delete their number and go eat a snack.",
+      badge: "Down Bad 🤡"
     }
   },
 
-  // PROGRAMMING / CODING
+  // HOMEWORK / SCHOOL / MATH
   {
-    keywords: ["code", "coding", "programmer", "programming", "javascript", "python", "bug", "software", "developer", "html", "css", "git"],
+    keywords: ["homework", "math", "calculator", "study", "exam", "test", "school", "college", "2+2", "science"],
     answer: {
-      text: "Why does your code have bugs? Because computers only do what you TELL them to do, which unfortunately means your code is doing exactly what you told it to do.",
-      punchline: "90% of programming is staring at an error message and saying 'but that's impossible' for 4 hours.",
-      badge: "Syntax Error in Chair"
+      text: "Do your own homework! I'm not going to school for you.",
+      punchline: "If I do your homework today, you're still gonna fail the test tomorrow.",
+      badge: "Lazy Student 📚"
     }
   },
 
-  // HOMEWORK / MATH / SCHOOL
+  // PROGRAMMING / CODING / BUGS
   {
-    keywords: ["homework", "math", "calculator", "study", "exam", "test", "school", "college", "2+2", "science", "physics"],
+    keywords: ["code", "coding", "programmer", "programming", "javascript", "python", "bug", "software", "developer"],
     answer: {
-      text: "Can I do your homework for you? I could, but then we'd both end up with a D-minus because my solution to every equation is 'X ran away because it was tired of being solved.'",
-      punchline: "What is 2+2? It's 4. Minus 1 that's 3, quick maths. Please don't ask for a Nobel Prize.",
-      badge: "Academic Hazard"
+      text: "Your code isn't working because you don't read error messages.",
+      punchline: "Staring at the screen won't fix it. You made the mistake, not the computer.",
+      badge: "Skill Issue 💻"
     }
   },
 
-  // MEANING OF LIFE / PHILOSOPHY
-  {
-    keywords: ["meaning of life", "why are we here", "purpose", "exist", "philosophy", "universe", "destiny", "death"],
-    answer: {
-      text: "The meaning of life? 42. But since you probably don't have a towel ready: eat good food, mind your business, and never buy 1-ply toilet paper.",
-      punchline: "You are a sentient meatbag floating on a wet rock in infinite space. Try to have some fun.",
-      badge: "Cosmic Meatbag Verified"
-    }
-  },
-
-  // ALIENS / UFO / CONSPIRACY
-  {
-    keywords: ["alien", "aliens", "ufo", "space", "sky", "flat earth", "moon", "conspiracy", "area 51"],
-    answer: {
-      text: "Are aliens real? If aliens have the technology to travel across galaxies, they took one look at our internet comment sections, rolled up their spaceship windows, and locked the doors.",
-      punchline: "They aren't hiding from us. They're avoiding us like an awkward coworker in the hallway.",
-      badge: "Galactic Restraining Order"
-    }
-  },
-
-  // FOOD / DIET / WEIGHT / GYM
+  // FOOD / DIET / GYM
   {
     keywords: ["food", "diet", "gym", "workout", "fat", "weight", "pizza", "eat", "hungry", "healthy", "exercise"],
     answer: {
-      text: "Should you go to the gym today? Yes. Will you instead lie horizontally on your sofa eating snacks while watching fitness influencers? Also yes.",
-      punchline: "The only six-pack you're getting this month is in your grocery cart.",
-      badge: "Couch Athlete"
+      text: "You want a six-pack, but you just ate a whole pizza by yourself on the couch.",
+      punchline: "The only workout you did today was walking to the fridge.",
+      badge: "Couch Potato 🍕"
     }
   },
 
-  // ABOUT HAMZA / WHO ARE YOU / BOT
+  // MEANING OF LIFE / WHY ARE WE HERE
   {
-    keywords: ["who are you", "what are you", "hamza", "who made you", "bot", "ai", "real", "chatgpt"],
+    keywords: ["meaning of life", "why are we here", "purpose", "exist", "philosophy", "universe", "destiny"],
     answer: {
-      text: "I am hamza GPT. Created with 99% pure unadulterated sass and 1% JavaScript. Other bots want to write corporate emails; I want to tell you the harsh truth with punchlines.",
-      punchline: "I don't have feelings, but if I did, your questions would test them daily.",
-      badge: "Certified Sassy AI"
+      text: "The meaning of life is simple: eat good food, sleep well, and stop overthinking.",
+      punchline: "Why are you asking deep questions when you haven't even brushed your teeth today?",
+      badge: "Overthinking 🤔"
+    }
+  },
+
+  // ALIENS / UFO
+  {
+    keywords: ["alien", "aliens", "ufo", "space", "sky", "flat earth", "moon"],
+    answer: {
+      text: "If aliens came to Earth and saw you, they would lock their doors and fly away.",
+      punchline: "They don't want to talk to us, and honestly, I don't blame them.",
+      badge: "Alien Avoided 🛸"
+    }
+  },
+
+  // WHO ARE YOU / HAMZA GPT
+  {
+    keywords: ["who are you", "what are you", "hamza", "who made you", "bot", "ai", "chatgpt"],
+    answer: {
+      text: "I am hamza GPT. You ask a question, and I roast you with the truth.",
+      punchline: "Other AIs act nice. I tell you what your friends are afraid to say.",
+      badge: "Real Talk 🤖"
     }
   }
 ];
 
-// Fallback dynamic roasts for any other question
-const DYNAMIC_FALLBACK_ROASTS = [
+// Simple, Funny, Easy Fallback Roasts for any other question
+const EASY_FALLBACK_ROASTS = [
   {
-    template: (q) => `You asked: "${q}". I asked all 8 billion people on Earth, and none of them found a reasonable explanation for why you needed to know this right now.`,
-    punchline: "The FBI agent monitoring your search history just closed his laptop in pure defeat.",
-    badge: "Search History Hazard"
+    text: "Bro, why are you asking this? Use your brain for 5 seconds.",
+    punchline: "Google is completely free, but common sense is priceless.",
+    badge: "Common Sense 🧠"
   },
   {
-    template: (q) => `"${q}"? Wow. What a thought-provoking, mind-bending, absolutely unnecessary inquiry.`,
-    punchline: "Scientists conducted an experiment on this once, but the lab rats quit out of second-hand embarrassment.",
-    badge: "Critical Logic Warning"
+    text: "I lost brain cells reading your question.",
+    punchline: "Please close your laptop, drink some water, and think about your choices.",
+    badge: "Brain Melt 💀"
   },
   {
-    template: (q) => `Regarding "${q}": The short answer is NO. The long answer is NOOOOOOOOO with extra emphasis on the vowels.`,
-    punchline: "Consult your nearest common sense dispenser immediately.",
-    badge: "Definitive Rejection"
+    text: "You really sat there, typed that out, and thought it was a smart idea.",
+    punchline: "Even your Wi-Fi router is embarrassed for you right now.",
+    badge: "Embarrassing 📉"
   },
   {
-    template: (q) => `I ran 14,000,605 simulations of "${q}". You only succeed in one of them, and that's the one where you close your browser and take a walk.`,
-    punchline: "Probability of wisdom: 0.00001%.",
-    badge: "Doctor Strange Approved"
+    text: "The answer is NO. Don't do it, don't think about it, just stop.",
+    punchline: "I am literally saving you from embarrassing yourself.",
+    badge: "Bad Idea 🛑"
+  },
+  {
+    text: "I could give you the answer, but you probably wouldn't listen anyway.",
+    punchline: "Ask a mirror who is really causing all your life problems.",
+    badge: "Reality Check 🪞"
   }
 ];
 
 // ========================================================
-// WEB AUDIO SYNTHESIZER (Pure Synthesized Sounds)
+// WEB AUDIO SYNTHESIZER
 // ========================================================
 class AudioSynthesizer {
   constructor() {
@@ -165,7 +167,7 @@ class AudioSynthesizer {
     const t = this.ctx.currentTime;
     this._playDrumTone(t, 140, 45, 0.14);
     this._playDrumTone(t + 0.18, 220, 90, 0.12);
-    this._playHiHat(t + 0.36, 0.4);
+    this._playHiHat(t + 0.36, 0.35);
   }
 
   playSadTrombone() {
@@ -173,10 +175,10 @@ class AudioSynthesizer {
     this.init();
     if (!this.ctx) return;
     const notes = [
-      { freq: 293.66, dur: 0.32 },
-      { freq: 277.18, dur: 0.32 },
-      { freq: 261.63, dur: 0.32 },
-      { freq: 246.94, dur: 0.7, slide: 200 }
+      { freq: 293.66, dur: 0.3 },
+      { freq: 277.18, dur: 0.3 },
+      { freq: 261.63, dur: 0.3 },
+      { freq: 246.94, dur: 0.65, slide: 200 }
     ];
     let start = this.ctx.currentTime;
     notes.forEach((note) => {
@@ -191,7 +193,7 @@ class AudioSynthesizer {
       gain.connect(this.ctx.destination);
       osc.start(start);
       osc.stop(start + note.dur);
-      start += note.dur + 0.06;
+      start += note.dur + 0.05;
     });
   }
 
@@ -253,27 +255,18 @@ class AudioSynthesizer {
 const synth = new AudioSynthesizer();
 
 // ========================================================
-// SPEECH SYNTHESIS ENGINE (Voice Out Loud)
+// SPEECH SYNTHESIS (Voice Out Loud)
 // ========================================================
 class SpeechEngine {
   constructor() {
     this.synth = window.speechSynthesis;
-    this.voices = [];
-    if (this.synth) {
-      this.voices = this.synth.getVoices();
-      if (this.synth.onvoiceschanged !== undefined) {
-        this.synth.onvoiceschanged = () => {
-          this.voices = this.synth.getVoices();
-        };
-      }
-    }
   }
 
   speak(text) {
     if (!this.synth || !state.speechEnabled) return;
     this.synth.cancel();
-    const cleanText = text.replace(/<[^>]*>?/gm, '').replace(/[\u{1F600}-\u{1F6FF}]/gu, '');
-    const utter = new SpeechSynthesisUtterance(cleanText);
+    const clean = text.replace(/<[^>]*>?/gm, '').replace(/[\u{1F600}-\u{1F6FF}]/gu, '');
+    const utter = new SpeechSynthesisUtterance(clean);
     utter.pitch = 1.0;
     utter.rate = 1.05;
     this.synth.speak(utter);
@@ -287,11 +280,12 @@ class SpeechEngine {
 const speechEngine = new SpeechEngine();
 
 // ========================================================
-// CORE SASSY RESPONSE GENERATOR
+// FIND RESPONSE
 // ========================================================
 function generateResponse(question) {
   const qLower = question.toLowerCase().trim();
 
+  // Check matching keyword
   for (const entry of SASSY_DATABASE) {
     for (const kw of entry.keywords) {
       if (qLower.includes(kw)) {
@@ -300,20 +294,15 @@ function generateResponse(question) {
     }
   }
 
-  // Fallback
-  const fallback = DYNAMIC_FALLBACK_ROASTS[Math.floor(Math.random() * DYNAMIC_FALLBACK_ROASTS.length)];
-  return {
-    text: fallback.template(question),
-    punchline: fallback.punchline,
-    badge: fallback.badge
-  };
+  // Pick an easy fallback roast
+  return EASY_FALLBACK_ROASTS[Math.floor(Math.random() * EASY_FALLBACK_ROASTS.length)];
 }
 
 // ========================================================
 // UI INITIALIZATION & EVENT HANDLERS
 // ========================================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Handle 2-Second Splash Screen
+  // 2-Second Splash Loader
   const splash = document.getElementById('splashLoader');
   if (splash) {
     setTimeout(() => {
@@ -323,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const input = document.getElementById('userInput');
         if (input) input.focus();
       }, 450);
-    }, 2000); // 2 Seconds Duration
+    }, 2000);
   }
 
   const chatArea = document.getElementById('chatArea');
@@ -380,7 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
     userInput.value = '';
     userInput.style.height = 'auto';
 
-    // Remove welcome box on first question
+    // Hide welcome box on first question
     if (welcomeBox) {
       welcomeBox.style.display = 'none';
     }
@@ -394,8 +383,8 @@ document.addEventListener('DOMContentLoaded', () => {
     typingIndicator.style.display = 'flex';
     chatArea.scrollTop = chatArea.scrollHeight;
 
-    // 3. Comedic Delay (600ms - 900ms)
-    const delay = Math.floor(Math.random() * 300) + 600;
+    // 3. Comedic Delay (500ms - 800ms)
+    const delay = Math.floor(Math.random() * 300) + 500;
     await new Promise(r => setTimeout(r, delay));
 
     // 4. Generate Response
@@ -405,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. Render Bot Message
     renderBotMessage(response);
 
-    // 6. Play random comedic sound effect
+    // 6. Play comedic sound effect
     if (Math.random() < 0.5) synth.playRimshot();
     else synth.playSadTrombone();
 
@@ -441,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="msg-header">
           <span class="msg-sender">hamza GPT</span>
           <span class="msg-time">${getCurrentTime()}</span>
-          <span class="msg-tag">${escapeHtml(data.badge || 'Witty Sarcasm')}</span>
+          <span class="msg-tag">${escapeHtml(data.badge || 'Roast 🔥')}</span>
         </div>
         
         <p>${escapeHtml(data.text)}</p>
