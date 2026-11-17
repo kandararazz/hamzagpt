@@ -35,7 +35,7 @@
 }
 
 html, body {
-  height: 100%;
+  min-height: 100%;
 }
 
 body {
@@ -44,7 +44,6 @@ body {
   color: var(--text-primary);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   line-height: 1.5;
 }
 
@@ -58,6 +57,7 @@ body {
   margin: 0 auto;
   position: relative;
   background-color: var(--bg-main);
+  overflow: hidden;
 }
 
 /* ========================================================
