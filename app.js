@@ -88,10 +88,16 @@ const OFFLINE_KNOWLEDGE_BASE = [
     badge: "RazaTheDeveloper (Age 12) 👑"
   },
   {
-    keywords: ["who are you", "what are you", "hamza"],
-    answer: "I am HamzaGPT, an interactive AI website built to answer your questions with proper, meaningful facts while giving you a hilarious reality check at the same time.",
-    roast: "Other AIs pretend to love your questions. I tell you the truth your friends are too polite to say.",
-    badge: "About Me 🤖"
+    keywords: ["who are you", "what are you", "who are u", "who r u", "who are", "who is this", "hamza lagare", "who is hamza"],
+    answer: "I am a dump ass named Hamza Lagare.",
+    roast: "Yeah, you heard that right. A certified dumb ass named Hamza Lagare running this entire circus of an AI website.",
+    badge: "Hamza Lagare 🤡"
+  },
+  {
+    keywords: ["who is ur best friend", "who is your best friend", "best friend", "who is your bff", "bff", "who is your friend", "who is hamza's best friend", "aboobaker", "who is aboobaker"],
+    answer: "My best friend is Aboobaker.",
+    roast: "Aboobaker is the only person on planet Earth who can actually tolerate my nonsense. You wish you had a friend that loyal.",
+    badge: "Aboobaker 🤝"
   }
 ];
 
@@ -114,6 +120,45 @@ const SMART_OFFLINE_FALLBACKS = [
 // ========================================================
 async function fetchSmartAnswerAndRoast(question) {
   const qClean = question.toLowerCase().trim();
+
+  // Identity Easter Egg: "who are you" -> "I am a dump ass named Hamza Lagare"
+  if (
+    qClean === "who are" ||
+    qClean === "who are you" ||
+    qClean === "who are u" ||
+    qClean === "who r u" ||
+    qClean.includes("who are you") ||
+    qClean.includes("who are u") ||
+    qClean.includes("who r u") ||
+    qClean.includes("what are you") ||
+    qClean.includes("who is hamza") ||
+    qClean.includes("hamza lagare")
+  ) {
+    return {
+      answer: "I am a dump ass named Hamza Lagare.",
+      roast: "Yeah, you heard that right. A certified dumb ass named Hamza Lagare running this entire circus of an AI website.",
+      badge: "Hamza Lagare 🤡"
+    };
+  }
+
+  // Best Friend Easter Egg: "who is ur best friend" -> "Aboobaker"
+  if (
+    qClean.includes("best friend") ||
+    qClean.includes("bestfriend") ||
+    qClean.includes("best friends") ||
+    qClean.includes("who is your bff") ||
+    qClean.includes("who is ur bff") ||
+    qClean.includes("bff") ||
+    qClean.includes("who is your friend") ||
+    qClean.includes("who is ur friend") ||
+    qClean.includes("aboobaker")
+  ) {
+    return {
+      answer: "My best friend is Aboobaker.",
+      roast: "Aboobaker is the only person on planet Earth who can actually tolerate my nonsense. You wish you had a friend that loyal.",
+      badge: "Aboobaker 🤝"
+    };
+  }
 
   // Romantic / GF question handling
   if (
@@ -150,6 +195,8 @@ async function fetchSmartAnswerAndRoast(question) {
 
   const systemPrompt = `You are HamzaGPT.
 Special facts:
+- If asked who you are or your identity, YOU MUST say: "I am a dump ass named Hamza Lagare."
+- If asked who your best friend is, YOU MUST say: "My best friend is Aboobaker."
 - Your creator is RazaTheDeveloper, a talented 12-year-old developer who built HamzaGPT from scratch!
 - You do NOT have a girlfriend or romantic partner. If asked about dating, your gf, or love life, remind the user you are an AI and roast them for asking an AI out!
 
