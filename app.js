@@ -94,8 +94,14 @@ const OFFLINE_KNOWLEDGE_BASE = [
     badge: "Hamza Leghari 👑"
   },
   {
+    keywords: ["who is abu baker", "abu baker", "abo baker", "abu bakr"],
+    answer: "He is a fat ass with big gyaat.",
+    roast: "Bro has level 100 gyatt and his own gravitational pull at this point.",
+    badge: "Big Gyaat 🍑"
+  },
+  {
     keywords: ["who is abubaker", "who is aboobaker", "abubaker", "aboobaker", "abubakar", "abudidi", "who is abudidi"],
-    answer: "Abubaker is a abudidi and he is married with Delisa.",
+    answer: "Abukbaker is a abudidi and he is married with Delisa.",
     roast: "Bro really secured the bag and married Delisa while you're still alone at 2 AM asking AI questions about other people's marriages.",
     badge: "Abudidi 💍"
   },
@@ -149,7 +155,24 @@ async function fetchSmartAnswerAndRoast(question) {
     };
   }
 
-  // Abubaker Easter Egg: "who is abubaker" -> "Abubaker is a abudidi and he is married with Delisa."
+  // Abu Baker (with space) Easter Egg: "who is abu baker" -> "He is a fat ass with big gyaat."
+  if (
+    qClean.includes("who is abu baker") ||
+    qClean.includes("who is abo baker") ||
+    qClean.includes("who is abu bakr") ||
+    qClean === "abu baker" ||
+    qClean === "abo baker" ||
+    qClean.includes("abu baker") ||
+    qClean.includes("abo baker")
+  ) {
+    return {
+      answer: "He is a fat ass with big gyaat.",
+      roast: "Bro has level 100 gyatt and his own gravitational pull at this point.",
+      badge: "Big Gyaat 🍑"
+    };
+  }
+
+  // Abubaker (one word) Easter Egg: "who is abubaker" -> "Abukbaker is a abudidi and he is married with Delisa."
   if (
     qClean.includes("who is abubaker") ||
     qClean.includes("who is aboobaker") ||
@@ -162,7 +185,7 @@ async function fetchSmartAnswerAndRoast(question) {
     (qClean.includes("aboobaker") && !qClean.includes("best friend"))
   ) {
     return {
-      answer: "Abubaker is a abudidi and he is married with Delisa.",
+      answer: "Abukbaker is a abudidi and he is married with Delisa.",
       roast: "Bro really secured the bag and married Delisa while you're still alone at 2 AM asking AI questions about other people's marriages.",
       badge: "Abudidi 💍"
     };
@@ -227,7 +250,8 @@ async function fetchSmartAnswerAndRoast(question) {
   const systemPrompt = `You are HamzaGPT.
 Special facts:
 - If asked who you are or your identity, YOU MUST say: "I am Hamza Leghari."
-- If asked who Abubaker (or Aboobaker) is, YOU MUST say: "Abubaker is a abudidi and he is married with Delisa."
+- If asked who "abu baker" (with a space) is, YOU MUST say: "He is a fat ass with big gyaat."
+- If asked who Abubaker (or Aboobaker, one word) is, YOU MUST say: "Abukbaker is a abudidi and he is married with Delisa."
 - If asked who your best friend is, YOU MUST say: "My best friend is Abubaker (he is a abudidi and married with Delisa)."
 - If asked who Raza (or RazaTheDeveloper) is, YOU MUST say: "Raza is a 12-year-old software developer and the creator of HamzaGPT who codes web apps, AI systems, games, and many more projects!"
 - Your creator is RazaTheDeveloper, a talented 12-year-old developer who built HamzaGPT from scratch!
