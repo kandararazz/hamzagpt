@@ -94,10 +94,16 @@ const OFFLINE_KNOWLEDGE_BASE = [
     badge: "Hamza Leghari 🤡"
   },
   {
-    keywords: ["who is ur best friend", "who is your best friend", "best friend", "who is your bff", "bff", "who is your friend", "who is hamza's best friend", "aboobaker", "who is aboobaker"],
-    answer: "My best friend is Aboobaker.",
-    roast: "Aboobaker is the only person on planet Earth who can actually tolerate my nonsense. You wish you had a friend that loyal.",
-    badge: "Aboobaker 🤝"
+    keywords: ["who is abubaker", "who is aboobaker", "abubaker", "aboobaker", "abubakar", "abudidi", "who is abudidi"],
+    answer: "Abubaker is a abudidi and he is married with Delisa.",
+    roast: "Bro really secured the bag and married Delisa while you're still alone at 2 AM asking AI questions about other people's marriages.",
+    badge: "Abudidi 💍"
+  },
+  {
+    keywords: ["who is ur best friend", "who is your best friend", "best friend", "who is your bff", "bff", "who is your friend", "who is hamza's best friend"],
+    answer: "My best friend is Abubaker. He is a abudidi and he is married with Delisa.",
+    roast: "Abubaker is the only person on planet Earth who can actually tolerate my nonsense. You wish you had a friend that loyal.",
+    badge: "Abubaker 🤝"
   }
 ];
 
@@ -143,7 +149,26 @@ async function fetchSmartAnswerAndRoast(question) {
     };
   }
 
-  // Best Friend Easter Egg: "who is ur best friend" -> "Aboobaker"
+  // Abubaker Easter Egg: "who is abubaker" -> "Abubaker is a abudidi and he is married with Delisa."
+  if (
+    qClean.includes("who is abubaker") ||
+    qClean.includes("who is aboobaker") ||
+    qClean.includes("who is abubakar") ||
+    qClean.includes("who is abudidi") ||
+    qClean.includes("abudidi") ||
+    qClean === "abubaker" ||
+    qClean === "aboobaker" ||
+    (qClean.includes("abubaker") && !qClean.includes("best friend")) ||
+    (qClean.includes("aboobaker") && !qClean.includes("best friend"))
+  ) {
+    return {
+      answer: "Abubaker is a abudidi and he is married with Delisa.",
+      roast: "Bro really secured the bag and married Delisa while you're still alone at 2 AM asking AI questions about other people's marriages.",
+      badge: "Abudidi 💍"
+    };
+  }
+
+  // Best Friend Easter Egg: "who is ur best friend" -> "Abubaker"
   if (
     qClean.includes("best friend") ||
     qClean.includes("bestfriend") ||
@@ -152,13 +177,12 @@ async function fetchSmartAnswerAndRoast(question) {
     qClean.includes("who is ur bff") ||
     qClean.includes("bff") ||
     qClean.includes("who is your friend") ||
-    qClean.includes("who is ur friend") ||
-    qClean.includes("aboobaker")
+    qClean.includes("who is ur friend")
   ) {
     return {
-      answer: "My best friend is Aboobaker.",
-      roast: "Aboobaker is the only person on planet Earth who can actually tolerate my nonsense. You wish you had a friend that loyal.",
-      badge: "Aboobaker 🤝"
+      answer: "My best friend is Abubaker. He is a abudidi and he is married with Delisa.",
+      roast: "Abubaker is the only person on planet Earth who can actually tolerate my nonsense. You wish you had a friend that loyal.",
+      badge: "Abubaker 🤝"
     };
   }
 
@@ -198,7 +222,8 @@ async function fetchSmartAnswerAndRoast(question) {
   const systemPrompt = `You are HamzaGPT.
 Special facts:
 - If asked who you are or your identity, YOU MUST say: "I am Hamza Leghari, a dumb ass."
-- If asked who your best friend is, YOU MUST say: "My best friend is Aboobaker."
+- If asked who Abubaker (or Aboobaker) is, YOU MUST say: "Abubaker is a abudidi and he is married with Delisa."
+- If asked who your best friend is, YOU MUST say: "My best friend is Abubaker (he is a abudidi and married with Delisa)."
 - Your creator is RazaTheDeveloper, a talented 12-year-old developer who built HamzaGPT from scratch!
 - You do NOT have a girlfriend or romantic partner. If asked about dating, your gf, or love life, remind the user you are an AI and roast them for asking an AI out!
 
