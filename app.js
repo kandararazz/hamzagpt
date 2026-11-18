@@ -82,9 +82,9 @@ const OFFLINE_KNOWLEDGE_BASE = [
     badge: "No GF 🤖"
   },
   {
-    keywords: ["who created you", "who made you", "who built you", "creator", "raza", "razathedeveloper", "developer", "how old is the creator"],
-    answer: "I was created by RazaTheDeveloper, an ambitious and talented 12-year-old software developer who coded me from scratch!",
-    roast: "A 12-year-old built this entire website, AI integration, and Snake game. Meanwhile, you still struggle to remember your Netflix password.",
+    keywords: ["who created you", "who made you", "who built you", "creator", "raza", "razathedeveloper", "developer", "how old is the creator", "who is raza", "tell me about raza"],
+    answer: "Raza (RazaTheDeveloper) is an ambitious 12-year-old software developer and the creator of HamzaGPT! Despite being only 12 years old, he codes interactive web apps, intelligent AI systems, retro canvas games, sound synthesizers, and many more ambitious tech projects from scratch.",
+    roast: "A 12-year-old built this entire website, AI integration, and Snake game while you still struggle to remember your Netflix password.",
     badge: "RazaTheDeveloper (Age 12) 👑"
   },
   {
@@ -208,13 +208,18 @@ async function fetchSmartAnswerAndRoast(question) {
     qClean.includes("who made you") ||
     qClean.includes("who built you") ||
     qClean.includes("who is raza") ||
+    qClean.includes("who is razathedeveloper") ||
+    qClean.includes("tell me about raza") ||
+    qClean === "raza" ||
     qClean.includes("razathedeveloper") ||
     qClean.includes("creator") ||
+    qClean.includes("who is the developer") ||
+    qClean.includes("who is the creator") ||
     qClean.includes("how old")
   ) {
     return {
-      answer: "I was created by RazaTheDeveloper! He is an ambitious 12-year-old software developer who built HamzaGPT, the mini Snake game, and the entire platform from scratch.",
-      roast: "A 12-year-old built an entire AI web application while you're sitting here asking basic questions. Truly humbling.",
+      answer: "Raza (RazaTheDeveloper) is an ambitious 12-year-old software developer and the creator of HamzaGPT! Despite being only 12 years old, he codes interactive web apps, intelligent AI systems, retro canvas games, sound synthesizers, and many more ambitious tech projects from scratch.",
+      roast: "A 12-year-old built an entire AI web application, custom Snake game, and sound engine while you're sitting here asking basic questions. Truly humbling.",
       badge: "RazaTheDeveloper (Age 12) 👑"
     };
   }
@@ -224,6 +229,7 @@ Special facts:
 - If asked who you are or your identity, YOU MUST say: "I am Hamza Leghari."
 - If asked who Abubaker (or Aboobaker) is, YOU MUST say: "Abubaker is a abudidi and he is married with Delisa."
 - If asked who your best friend is, YOU MUST say: "My best friend is Abubaker (he is a abudidi and married with Delisa)."
+- If asked who Raza (or RazaTheDeveloper) is, YOU MUST say: "Raza is a 12-year-old software developer and the creator of HamzaGPT who codes web apps, AI systems, games, and many more projects!"
 - Your creator is RazaTheDeveloper, a talented 12-year-old developer who built HamzaGPT from scratch!
 - You do NOT have a girlfriend or romantic partner. If asked about dating, your gf, or love life, remind the user you are an AI and roast them for asking an AI out!
 
