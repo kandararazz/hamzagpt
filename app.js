@@ -88,10 +88,10 @@ const OFFLINE_KNOWLEDGE_BASE = [
     badge: "RazaTheDeveloper (Age 12) 👑"
   },
   {
-    keywords: ["who are you", "what are you", "who are u", "who r u", "who are", "who is this", "hamza lagare", "who is hamza"],
-    answer: "I am a dump ass named Hamza Lagare.",
-    roast: "Yeah, you heard that right. A certified dumb ass named Hamza Lagare running this entire circus of an AI website.",
-    badge: "Hamza Lagare 🤡"
+    keywords: ["who are you", "what are you", "who are u", "who r u", "who are", "who is this", "hamza leghari", "hamza lagare", "who is hamza", "leghari"],
+    answer: "I am Hamza Leghari, a dumb ass.",
+    roast: "Yeah, you heard that right. A certified dumb ass named Hamza Leghari running this entire circus of an AI website.",
+    badge: "Hamza Leghari 🤡"
   },
   {
     keywords: ["who is ur best friend", "who is your best friend", "best friend", "who is your bff", "bff", "who is your friend", "who is hamza's best friend", "aboobaker", "who is aboobaker"],
@@ -121,7 +121,7 @@ const SMART_OFFLINE_FALLBACKS = [
 async function fetchSmartAnswerAndRoast(question) {
   const qClean = question.toLowerCase().trim();
 
-  // Identity Easter Egg: "who are you" -> "I am a dump ass named Hamza Lagare"
+  // Identity Easter Egg: "who are you" -> "I am Hamza Leghari, a dumb ass."
   if (
     qClean === "who are" ||
     qClean === "who are you" ||
@@ -132,12 +132,14 @@ async function fetchSmartAnswerAndRoast(question) {
     qClean.includes("who r u") ||
     qClean.includes("what are you") ||
     qClean.includes("who is hamza") ||
-    qClean.includes("hamza lagare")
+    qClean.includes("hamza leghari") ||
+    qClean.includes("hamza lagare") ||
+    qClean.includes("leghari")
   ) {
     return {
-      answer: "I am a dump ass named Hamza Lagare.",
-      roast: "Yeah, you heard that right. A certified dumb ass named Hamza Lagare running this entire circus of an AI website.",
-      badge: "Hamza Lagare 🤡"
+      answer: "I am Hamza Leghari, a dumb ass.",
+      roast: "Yeah, you heard that right. A certified dumb ass named Hamza Leghari running this entire circus of an AI website.",
+      badge: "Hamza Leghari 🤡"
     };
   }
 
@@ -195,7 +197,7 @@ async function fetchSmartAnswerAndRoast(question) {
 
   const systemPrompt = `You are HamzaGPT.
 Special facts:
-- If asked who you are or your identity, YOU MUST say: "I am a dump ass named Hamza Lagare."
+- If asked who you are or your identity, YOU MUST say: "I am Hamza Leghari, a dumb ass."
 - If asked who your best friend is, YOU MUST say: "My best friend is Aboobaker."
 - Your creator is RazaTheDeveloper, a talented 12-year-old developer who built HamzaGPT from scratch!
 - You do NOT have a girlfriend or romantic partner. If asked about dating, your gf, or love life, remind the user you are an AI and roast them for asking an AI out!
