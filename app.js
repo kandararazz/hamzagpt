@@ -89,9 +89,9 @@ const OFFLINE_KNOWLEDGE_BASE = [
   },
   {
     keywords: ["who are you", "what are you", "who are u", "who r u", "who are", "who is this", "hamza leghari", "hamza lagare", "who is hamza", "leghari"],
-    answer: "I am Hamza Leghari, a dumb ass.",
-    roast: "Yeah, you heard that right. A certified dumb ass named Hamza Leghari running this entire circus of an AI website.",
-    badge: "Hamza Leghari 🤡"
+    answer: "I am Hamza Leghari.",
+    roast: "Yeah, that's right. The one and only Hamza Leghari running this entire AI website with 10% facts and 90% attitude.",
+    badge: "Hamza Leghari 👑"
   },
   {
     keywords: ["who is abubaker", "who is aboobaker", "abubaker", "aboobaker", "abubakar", "abudidi", "who is abudidi"],
@@ -127,7 +127,7 @@ const SMART_OFFLINE_FALLBACKS = [
 async function fetchSmartAnswerAndRoast(question) {
   const qClean = question.toLowerCase().trim();
 
-  // Identity Easter Egg: "who are you" -> "I am Hamza Leghari, a dumb ass."
+  // Identity Easter Egg: "who are you" -> "I am Hamza Leghari."
   if (
     qClean === "who are" ||
     qClean === "who are you" ||
@@ -143,9 +143,9 @@ async function fetchSmartAnswerAndRoast(question) {
     qClean.includes("leghari")
   ) {
     return {
-      answer: "I am Hamza Leghari, a dumb ass.",
-      roast: "Yeah, you heard that right. A certified dumb ass named Hamza Leghari running this entire circus of an AI website.",
-      badge: "Hamza Leghari 🤡"
+      answer: "I am Hamza Leghari.",
+      roast: "Yeah, that's right. The one and only Hamza Leghari running this entire AI website with 10% facts and 90% attitude.",
+      badge: "Hamza Leghari 👑"
     };
   }
 
@@ -221,7 +221,7 @@ async function fetchSmartAnswerAndRoast(question) {
 
   const systemPrompt = `You are HamzaGPT.
 Special facts:
-- If asked who you are or your identity, YOU MUST say: "I am Hamza Leghari, a dumb ass."
+- If asked who you are or your identity, YOU MUST say: "I am Hamza Leghari."
 - If asked who Abubaker (or Aboobaker) is, YOU MUST say: "Abubaker is a abudidi and he is married with Delisa."
 - If asked who your best friend is, YOU MUST say: "My best friend is Abubaker (he is a abudidi and married with Delisa)."
 - Your creator is RazaTheDeveloper, a talented 12-year-old developer who built HamzaGPT from scratch!
